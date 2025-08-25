@@ -1,0 +1,632 @@
+Analytics TableName,Analytic Field Name,Analytic Field Description,Is Primary Key,Foreign Key Config,Field Type,Values if Dropdown Field,Bigquery Field Name,Biquery ViewName,Should consider for Analytics
+AllApplications,application_id,Unique identifier for each application. It is also referred to as pipeline_item_id. Use this field to uniquely identify and reference specific applications in queries and joins.,Yes,,PLAIN_TEXT,,application_id,bn_prod_analytics.all_applications,Yes
+AllApplications,file_id,Official file reference number assigned to each application. Also called file number (file no.). It will be generally used as a key to search application details by citizen / officer / architect....,,,PLAIN_TEXT,,file_id,bn_prod_analytics.all_applications,Yes
+AllApplications,application_created_datetime,"Date and time when the application record was first created in the system. Use for temporal analysis, filtering by creation periods, or tracking application created patterns.",,,DATE_TIME,,application_created_datetime,bn_prod_analytics.all_applications,Yes
+AllApplications,application_type,This is the main classification for the type of application proposed.,,,DROPDOWN,"Instant Registration
+Single Window
+Instant Approval",application_type,bn_prod_analytics.all_applications,Yes
+AllApplications,proposal_type,Specific subcategory within the application_type that details the exact nature of the construction/development work. Provides more granular classification than application_type.,,,DROPDOWN,"Building Permission
+Compound Wall
+Layout Open Plot
+Layout with Housing Under Gated Community (With Compound Wall)
+Layout with Housing without Gated and Community",proposal_type,bn_prod_analytics.all_applications,Yes
+AllApplications,authority,Government agency or municipal body responsible for processing and approving the application. Use to filter applications by reviewing authority or analyze workload distribution.,,,DROPDOWN,"DTCP
+GHMC
+HMDA",authority,bn_prod_analytics.all_applications,Yes
+AllApplications,name_of_applicant,Full legal name of the person or entity submitting the application. May contain null values for incomplete records. Use for applicant identification and analysis.,,,PLAIN_TEXT,,name_of_applicant,bn_prod_analytics.all_applications,Yes
+AllApplications,scrutiny_status,Current status of the automated CAD drawing scrutiny process. Indicates whether technical drawings have passed automated scrutiny checks.,,,DROP_DOWN,"Failed
+Success
+In Progress",scrutiny_status,bn_prod_analytics.all_applications,No
+AllApplications,architect_name,Name of the licensed architect who prepared the building plans / layout plan,,,PLAIN_TEXT,,architect_name,bn_prod_analytics.all_applications,Yes
+AllApplications,customer_id,Unique identifier for the applicant,,,PLAIN_TEXT,,customer_id,bn_prod_analytics.all_applications,No
+AllApplications,architect_id,Unique identifier for the architect,,,PLAIN_TEXT,,architect_id,bn_prod_analytics.all_applications,No
+AllApplications,temp_file_id,"Temporary file identifier assigned when application is initially created, before official file_id is assigned. System generates this immediately upon application creation (format: BN12345678). Useful for tracking applications in early stages.",,,PLAIN_TEXT,,temp_file_id,bn_prod_analytics.all_applications,Yes
+AllApplications,current_citizen_stage,Current status of the application that is displayed to the citizen. ,,,DROPDOWN,"Draft
+Payment Pending
+Under Department Verification
+Other Department Verification In Progress
+Shortfall
+Revised Payment Pending
+Approved
+Rejected
+Draft In Progress
+Scrutiny Failed
+Scrutiny Key Generated
+Scrutiny Successful
+Under Mortgage & Other Info Verification
+Proceedings Generated
+Processing Fee Pending
+Submit TDR Details
+Awaiting TDR Confirmation
+Initiating Resubmission
+Mortgage & Other Info pending
+Issue in Mortgage & Other Info Details
+Shortfall Scrutiny Failed
+Issue in TDR Details
+Application On-Hold
+Issue in Relinquishment Details
+Relinquishment Details Pending
+Under Relinquishment Details Verification",current_citizen_stage,bn_prod_analytics.all_applications,Yes
+AllApplications,current_citizen_stage_id,unique identifier corresponding to the current citizen stage,,,PLAIN_TEXT,,current_citizen_stage_id,bn_prod_analytics.all_applications,Yes
+AllApplications,application_created_by,Indicates the submission method - whether the application was submitted directly by the citizen/applicant or through an architect.,,,DROPDOWN,"Citizen
+Architect",application_created_by,bn_prod_analytics.all_applications,Yes
+AllApplications,application_created_by_id,Unique identifier of the person (citizen or architect) who actually created the application record in the system. Use for tracking who initiated the application process.,,,PLAIN_TEXT,,application_created_by_id,bn_prod_analytics.all_applications,Yes
+,,,,,,,,,
+SubmittedApplications,application_id,Unique identifier for each application. It is also referred to as pipeline_item_id. Use this field to uniquely identify and reference specific applications in queries and joins.,Yes,"FK(AllApplications, application_id)",PLAIN_TEXT,,application_id,bn_prod_analytics.submitted_applications,Yes
+SubmittedApplications,file_id,Official file reference number assigned to each application. Also called file number (file no.). It will be generally used as a key to search application details by citizen / officer / architect....,,,PLAIN_TEXT,,file_id,bn_prod_analytics.submitted_applications,Yes
+SubmittedApplications,temp_file_id,"Temporary file identifier assigned when application is initially created, before official file_id is assigned. System generates this immediately upon application creation (format: BN12345678). Useful for tracking applications in early stages.",,,PLAIN_TEXT,,temp_file_id,bn_prod_analytics.submitted_applications,Yes
+SubmittedApplications,application_type,"Primary classification indicating the type of application being submitted (e.g., Instant Registration, Single Window).",,,DROPDOWN,"Instant Registration
+Single Window
+Instant Approval",application_type,bn_prod_analytics.submitted_applications,Yes
+SubmittedApplications,proposal_type,Specific subcategory under application_type that defines the nature of the proposed construction or development work in detail.,,,DROPDOWN,"Building Permission
+Compound Wall
+Layout Open Plot
+Layout with Housing Under Gated Community (With Compound Wall)
+Layout with Housing without Gated and Community",proposal_type,bn_prod_analytics.submitted_applications,Yes
+SubmittedApplications,purpose_of_building,"Indicates the intended use of the proposed building, such as residential, commercial, institutional, or industrial purposes.",,,DROPDOWN,"Residential
+Educational/institutional
+Commercial
+Public Utility
+Non Residential
+Storage
+Medical
+Industrial
+Assembly",purpose_of_building,bn_prod_analytics.submitted_applications,Yes
+SubmittedApplications,permission_type,"Specifies the type of request made in the application—such as new applications, revisions, alterations to previous applications, occupancy of buildings, or final layout approvals.",,,DROPDOWN,"New
+Revision
+Addition/Alteration
+Occupancy Certificate
+Final Layout",permission_type,bn_prod_analytics.submitted_applications,Yes
+SubmittedApplications,officer_pipeline_id,,,,PLAIN_TEXT,,officer_pipeline_id,bn_prod_analytics.submitted_applications,No
+SubmittedApplications,application_category,"A derived classification that combines details from proposal_type, permission_type, and building height to define the overall nature of the application.",,,DROPDOWN,"Occupancy Certificate
+Compound Wall
+Non-MSB
+MSB
+Layout Open Plot
+Final Layout
+Layout with Housing",application_category,bn_prod_analytics.submitted_applications,Yes
+SubmittedApplications,application_office_category,"Indicates the administrative office category responsible for processing the application (e.g., Zonal Office, Circle Office, Head Office).",,,DROPDOWN,"Zonal Office
+Local Office
+Main Office
+Head Office
+Circle Office",application_office_category,bn_prod_analytics.submitted_applications,Yes
+SubmittedApplications,authority,Government agency or municipal body responsible for processing and approving the application. Use to filter applications by reviewing authority or analyze workload distribution.,,,DROPDOWN,"DTCP
+GHMC
+HMDA",authority,bn_prod_analytics.submitted_applications,Yes
+SubmittedApplications,name_of_applicant,Full legal name of the person or entity submitting the application. May contain null values for incomplete records. Use for applicant identification and analysis.,,,PLAIN_TEXT,,name_of_applicant,bn_prod_analytics.submitted_applications,Yes
+SubmittedApplications,scrutiny_status,Current status of the automated CAD drawing scrutiny process. Indicates whether technical drawings have passed automated scrutiny checks.,,,DROP_DOWN,"Failed
+Success
+In Progress",scrutiny_status,bn_prod_analytics.submitted_applications,No
+SubmittedApplications,architect_name,Name of the licensed architect who prepared the building plans / layout plan,,,PLAIN_TEXT,,architect_name,bn_prod_analytics.submitted_applications,Yes
+SubmittedApplications,customer_id,Unique identifier for the applicant,,,PLAIN_TEXT,,customer_id,bn_prod_analytics.submitted_applications,No
+SubmittedApplications,architect_id,Unique identifier for the architect,,,PLAIN_TEXT,,architect_id,bn_prod_analytics.submitted_applications,No
+SubmittedApplications,application_created_by,Indicates the submission method - whether the application was submitted directly by the citizen/applicant or through an architect.,,,DROPDOWN,"Citizen
+Architect",application_created_by,bn_prod_analytics.submitted_applications,Yes
+SubmittedApplications,application_created_by_id,Unique identifier of the person (citizen or architect) who actually created the application record in the system. Use for tracking who initiated the application process.,,,PLAIN_TEXT,,application_created_by_id,bn_prod_analytics.submitted_applications,Yes
+SubmittedApplications,district,Administrative division representing a district under which the application falls.,,,DROPDOWN,"Jagityal
+Nalgonda
+Hanumakonda
+Jogulamba-Gadwal
+Nagarkurnool
+Wanaparthy
+Kamareddy
+Medak
+Narayanapet
+Suryapet
+Mahabubnagar
+Jangaon
+Jayashankar-Bhupalpally
+Nizamabad
+Warangal
+Adilabad
+Sangareddy
+Vikarabad
+Karimnagar
+Siddipet
+Mahabubabad
+Peddapally
+Khammam
+Rajanna Sircilla
+Badradri-Kothagudem
+Medchal - Malkajgiri
+Rangareddy
+Hyderabad
+Yadadri - Bhuvanagiri
+Nirmal
+Mancherial
+KomaramBheem-Asifabad",district,bn_prod_analytics.submitted_applications,Yes
+SubmittedApplications,mandal,Subdivision of a district used for administrative purposes.,,,PLAIN_TEXT,,mandal,bn_prod_analytics.submitted_applications,Yes
+SubmittedApplications,village,Name of the village related to the application,,,PLAIN_TEXT,,village,bn_prod_analytics.submitted_applications,Yes
+SubmittedApplications,zone,"Geographical or jurisdictional division used for organizing areas, often larger than a circle.",,,DROPDOWN,"Kukatpally Zone
+Serilingampally Zone
+Khairathabad Zone
+Charminar Zone
+Secunderabad Zone
+LB Nagar Zone
+Ghatkesar Zone
+Medchal Zone – I
+Shamshabad Zone
+Shankerpally Zone – II
+Medchal Zone – II
+Shankerpally Zone – I
+Medchal Zone- I",zone,bn_prod_analytics.submitted_applications,Yes
+SubmittedApplications,circle,A smaller administrative unit within a zone,,,DROPDOWN,"Serilingampally Circle 20
+Chanda Nagar Circle 21
+Kukatpally Circle 24
+Gajularamaram Circle 26
+Alwal Circle 27
+Moosapet Circle 23
+Qutbullapur Circle 25
+Rajendra Nagar Circle 11
+Saroor Nagar Circle 5
+Malakpet Circle 6
+Santosh Nagar Circle 7
+Charminar Circle 9
+LB Nagar Circle 4
+Hayath Nagar Circle 3
+Kapra Circle 1
+Uppal Circle 2
+Hayath Nagar - Circle 3
+Ramachandrapuram & Patancheruvu Circle 22
+Serilingampally - Circle 20
+Chanda Nagar - Circle 21
+Yousufguda Circle 19
+Amberpet Circle 16
+Musheerabad Circle 15
+Begumpet Circle 30
+Malkajgiri Circle 28
+Secundrabad Circle 29
+Alwal - Circle 27
+Chandrayanagutta Circle 8
+Falaknama Circle 10
+Khairatabad Circle 17
+Jubilee Hills Circle 18
+Karwan Circle 13
+Goshamahal Circle 14
+Mehdipatnam Circle 12
+Musheerabad - Circle 15
+Malakpet - Circle 6",circle,bn_prod_analytics.submitted_applications,Yes
+SubmittedApplications,ulb,"Name of the Urban Local Body (municipality, municipal corporation, or Gram Panchayat) under whose jurisdiction the application falls.",,,PLAIN_TEXT,,ulb,bn_prod_analytics.submitted_applications,Yes
+SubmittedApplications,organization_type,"Type of the Urban Local Body (municipality, municipal corporation, or Gram Panchayat) under whose jurisdiction the application falls.",,,DROPDOWN,"Municipality
+Municipal Corporation
+Gram Panchayat",organization_type,bn_prod_analytics.submitted_applications,Yes
+SubmittedApplications,application_created_datetime,"Date and time when the application record was first created in the system. Use for temporal analysis, filtering by creation periods, or tracking application created patterns.",,,DATE_TIME,,application_created_datetime,bn_prod_analytics.submitted_applications,Yes
+SubmittedApplications,date_of_submission,Date and time when the application or request was submitted.,,,DATE_TIME,,date_of_submission,bn_prod_analytics.submitted_applications,Yes
+SubmittedApplications,approved_datetime,Date and time when the application or request was officially approved.,,,DATE_TIME,,approved_datetime,bn_prod_analytics.submitted_applications,Yes
+SubmittedApplications,rejected_datetime,Date and time when the application or request was rejected.,,,DATE_TIME,,rejected_datetime,bn_prod_analytics.submitted_applications,Yes
+SubmittedApplications,shortfall_datetime,Date and time when the application or request was sent to shortfall for citizen,,,DATE_TIME,,shortfall_datetime,bn_prod_analytics.submitted_applications,Yes
+SubmittedApplications,shortfall_count,Number of times an application was sent to shortfall,,,INTEGER,,shortfall_count,bn_prod_analytics.submitted_applications,Yes
+SubmittedApplications,resubmitted_count,,,,INTEGER,,resubmitted_count,bn_prod_analytics.submitted_applications,No
+SubmittedApplications,fee_intimation_issued_or_approved_datetime,Date and time when the fee intimation was either issued or approved.,,,DATE_TIME,,fee_intimation_issued_or_approved_datetime,bn_prod_analytics.submitted_applications,Yes
+SubmittedApplications,application_remaining_time_left_in_sec,Every application will have an SLA with in which the officers needs to completer the processing. This field represents the time left for officers to complete processing the application,,,INTEGER,,application_remaining_time_left_in_sec,bn_prod_analytics.submitted_applications,Yes
+SubmittedApplications,height,"Height in meters,  (e.g., building height ).",,,FLOAT,,height,bn_prod_analytics.submitted_applications,Yes
+SubmittedApplications,current_officer_stage,Current status of the application as viewed or handled by the respective officer in the workflow.,,,DROPDOWN,"Under L1 Verification
+Under L1(STO)/L1(TVO) Verification
+Under (STO) Verification
+Under L2 Verification
+Under (TVO) Verification
+Under L3 Verification
+On Hold For Line Dept Remarks
+Rejected
+Shortfall
+Revised Fee Intimation Sent
+Approved
+Under L1(APO/JPO)/L1(TVO) Verification
+Under L1(ACP)/L1 (TVO) Verification
+Under L1(SI)/L1(TTVO) Verification
+Under (TTVO) Verification
+Under (SI) Verification
+Under L1(APO/JPO) Verification
+Under L1(ACP) Verification
+Under L4 Verification
+Proceedings Generated
+Final Payment Pending
+Rejection Verification by L2
+Awaiting TDR Confirmation
+Final Payment Paid
+Mortgage & Other Info pending
+Under Post Payment Details Verification by L2
+Issue Proceedings by L2
+Post Payment Details Shortfall
+Under Post Payment Details Verification by L1
+Under Post Payment Details Verification by L3
+Verify TDR Details
+TDR Accepted by Owner
+Verify TDR Details by L2
+Rejected with Refund
+Rejected without Refund
+TDR Shortfall
+Application On-Hold
+Reject with Refund
+TDR shortfall
+Relinquishment Details Shortfall
+Yet to Submit Relinquishment Deed",current_officer_stage,bn_prod_analytics.submitted_applications,Yes
+SubmittedApplications,current_officer_stage_id,Unique identifier that maps to the current officer stage in the application's lifecycle.,,,PLAIN_TEXT,,current_officer_stage_id,bn_prod_analytics.submitted_applications,Yes
+SubmittedApplications,current_citizen_stage,"Current status of the application as visible to the citizen/applicant, indicating the latest progress from their perspective.",,,DROPDOWN,"Draft
+Payment Pending
+Under Department Verification
+Other Department Verification In Progress
+Shortfall
+Revised Payment Pending
+Approved
+Rejected
+Draft In Progress
+Scrutiny Failed
+Scrutiny Key Generated
+Scrutiny Successful
+Under Mortgage & Other Info Verification
+Proceedings Generated
+Processing Fee Pending
+Submit TDR Details
+Awaiting TDR Confirmation
+Initiating Resubmission
+Mortgage & Other Info pending
+Issue in Mortgage & Other Info Details
+Shortfall Scrutiny Failed
+Issue in TDR Details
+Application On-Hold
+Issue in Relinquishment Details
+Relinquishment Details Pending
+Under Relinquishment Details Verification",current_citizen_stage,bn_prod_analytics.submitted_applications,Yes
+SubmittedApplications,current_citizen_stage_id,Unique identifier that corresponds to the current citizen-visible stage of the application.,,,PLAIN_TEXT,,current_citizen_stage_id,bn_prod_analytics.submitted_applications,Yes
+SubmittedApplications,officer_current_status,Grouped or summarized version of officer stages to help simplify and understand officer-side progress.,,,DROPDOWN,"L1 Review
+L3 Review
+L2 Review
+Rejected
+Proceedings Generated
+Shortfall
+Hold
+Post-Payment
+Payment Pending
+L4 Review
+Awaiting TDR Confirmation",officer_current_status,bn_prod_analytics.submitted_applications,Yes
+SubmittedApplications,application_current_status,Consolidated status representing the application's current stage in the officer's workflow. Used for grouped status insights.,,,DROPDOWN,"Under Officer Verification
+Proceedings Generated
+Shortfall
+Under Post-Payment Process
+Payment Pending
+Rejected
+Awaiting TDR Confirmation
+Under Line Department Verification",application_current_status,bn_prod_analytics.submitted_applications,Yes
+SubmittedApplications,application_simplified_status,"A further simplified classification of the application status for easier reporting and understanding (e.g., In Progress, Approved, Rejected).",,,DROPDOWN,"In Progress
+Rejected
+Fee Intimation Issued / Approved
+Shortfall
+In Progress - Line Dept",application_simplified_status,bn_prod_analytics.submitted_applications,Yes
+SubmittedApplications,pending_status,Indicates whether the application is pending with the officer or with the citizen for action.,,,DROPDOWN,"pending_from_officer
+pending_from_citizen",pending_status,bn_prod_analytics.submitted_applications,Yes
+,,,,,,,,,
+ApplicationOfficers,id,Unique identifier for each officer assignment record,Yes,,INTEGER,,id,bn_prod_analytics.application_officers,Yes
+ApplicationOfficers,application_id,Foreign key linking to the specific application in SubmittedApplications table. Identifies which application this officer assignment relates to.,,"FK(SubmittedApplications, application_id)",PLAIN_TEXT,,application_id,bn_prod_analytics.application_officers,Yes
+ApplicationOfficers,officer_id,Foreign key referencing the specific officer assigned to this application. Links to Officers table for officer details and contact information.,,"FK(Officers, officer_id)",PLAIN_TEXT,,officer_id,bn_prod_analytics.application_officers,Yes
+ApplicationOfficers,officer_category,Specific role classification of the assigned officer within the processing hierarchy,,,DROPDOWN,"L1-TVO
+L1-STO
+L4
+L1-APO/JPO
+L1-ACP
+L3
+L1
+L2
+L1-SI
+L1-TTVO",officer_category,bn_prod_analytics.application_officers,Yes
+ApplicationOfficers,remaining_time_left_in_sec,"Time remaining (in seconds) for this officer to complete their assigned verification task within SLA guidelines. Used for deadline monitoring and escalation triggers
+
+SLA Breached (Exceed): remaining_time_left_in_sec < 0
+At-Risk: remaining_time_left_in_sec <= 172800
+SLA Within: remaining_time_left_in_sec >= 0 (included atrisk applications)
+SLA Within: remaining_time_left_in_sec > 172800 (not included atrisk applications)
+
+we are using this field is calcualte the Total Pending Days: Ceil((sla_time_in_sec - remaining_time_left_in_sec)/86400)",,,INTEGER,,remaining_time_left_in_sec,bn_prod_analytics.application_officers,Yes
+ApplicationOfficers,officer_assigned_datetime,Date and time when this specific officer was assigned to review this application. Marks the start of this officer's processing timeline.,,,DATE_TIME,,officer_assigned_datetime,bn_prod_analytics.application_officers,Yes
+ApplicationOfficers,officer_processed_datetime,Date and time when the officer completed their assigned verification task. Used for calculating individual processing times and efficiency metrics.,,,DATE_TIME,,officer_processed_datetime,bn_prod_analytics.application_officers,Yes
+ApplicationOfficers,sla_time_in_sec,"Total time allocated (in seconds) for this officer's specific verification task as per Service Level Agreement. Used for SLA compliance monitoring and performance evaluation.
+
+we are using this field is calcualte the Total Pending Days: Ceil((sla_time_in_sec - remaining_time_left_in_sec)/86400)",,,INTEGER,,sla_time_in_sec,bn_prod_analytics.application_officers,Yes
+,,,,,,,,,
+ApplicationOfficersHierarchy,application_id,Primary key and foreign key linking to the specific application in SubmittedApplications table. Each application has exactly one hierarchy record defining its complete officer structure.,Yes,"FK(SubmittedApplications, application_id)",PLAIN_TEXT,,application_id,bn_prod_analytics.application_officers_hierarchy,Yes
+ApplicationOfficersHierarchy,level_1_officer_id,Officer ID assigned at Level 1 for processing the application.,,"FK(Officers, officer_id)",PLAIN_TEXT,,level_1_officer_id,bn_prod_analytics.application_officers_hierarchy,Yes
+ApplicationOfficersHierarchy,level_1_tvo_officer_id,Level 1 TVO ID assigned to the application.,,"FK(Officers, officer_id)",PLAIN_TEXT,,level_1_tvo_officer_id,bn_prod_analytics.application_officers_hierarchy,Yes
+ApplicationOfficersHierarchy,level_1_sto_officer_id,Level 1 STO ID responsible for the application.,,"FK(Officers, officer_id)",PLAIN_TEXT,,level_1_sto_officer_id,bn_prod_analytics.application_officers_hierarchy,Yes
+ApplicationOfficersHierarchy,level_1_acp_officer_id,Level 1 ACP officer ID assigned to the application.,,"FK(Officers, officer_id)",PLAIN_TEXT,,level_1_acp_officer_id,bn_prod_analytics.application_officers_hierarchy,Yes
+ApplicationOfficersHierarchy,level_1_apo_jpo_officer_id,Level 1 APO/JPO ID assigned to the application.,,"FK(Officers, officer_id)",PLAIN_TEXT,,level_1_apo_jpo_officer_id,bn_prod_analytics.application_officers_hierarchy,Yes
+ApplicationOfficersHierarchy,level_1_si_officer_id,Level 1 SI officer ID handling the application.,,"FK(Officers, officer_id)",PLAIN_TEXT,,level_1_si_officer_id,bn_prod_analytics.application_officers_hierarchy,Yes
+ApplicationOfficersHierarchy,level_1_ttvo_officer_id,Level 1 TTVO ID associated with the application.,,"FK(Officers, officer_id)",PLAIN_TEXT,,level_1_ttvo_officer_id,bn_prod_analytics.application_officers_hierarchy,Yes
+ApplicationOfficersHierarchy,level_2_officer_id,Officer ID at Level 2 responsible for further processing of the application.,,"FK(Officers, officer_id)",PLAIN_TEXT,,level_2_officer_id,bn_prod_analytics.application_officers_hierarchy,Yes
+ApplicationOfficersHierarchy,level_3_officer_id,Officer ID at Level 3 involved in reviewing or approving the application.,,"FK(Officers, officer_id)",PLAIN_TEXT,,level_3_officer_id,bn_prod_analytics.application_officers_hierarchy,Yes
+ApplicationOfficersHierarchy,level_4_officer_id,Officer ID at Level 4 for final-level application processing or decision-making.,,"FK(Officers, officer_id)",PLAIN_TEXT,,level_4_officer_id,bn_prod_analytics.application_officers_hierarchy,Yes
+,,,,,,,,,
+Officers,officer_id,"Unique identifier for each officer. Primary key used to reference officers in application assignments, workflow tracking, and departmental verification processes.",Yes,,PLAIN_TEXT,,officer_id,bn_prod_analytics.officers,Yes
+Officers,name,"Full name of the government officer. Used for identification, communication, and reporting purposes in the application processing workflow.",,,PLAIN_TEXT,,name,bn_prod_analytics.officers,Yes
+Officers,designation,"Official job title or position of the officer (e.g., Assistant City Planner, Planning Officer, Director, Commissioner, Tehsildar, Site Inspector).",,,PLAIN_TEXT,,designation,bn_prod_analytics.officers,Yes
+Officers,level,"Hierarchical level classification of the officer within the processing workflow (L1, L2, L3, L4 for primary processing officers, or specialized categories for line department officers).",,,PLAIN_TEXT,,level,bn_prod_analytics.officers,Yes
+Officers,zone,Geographic or administrative zone assigned to the officer for territorial jurisdiction.,,,PLAIN_TEXT,,zone,bn_prod_analytics.officers,Yes
+Officers,phone_number,,,,PLAIN_TEXT,,phone_number,bn_prod_analytics.officers,No
+,,,,,,,,,
+WorkLoadDetails,id,,Yes,,PLAIN_TEXT,,id,bn_prod_analytics.workload_details,Yes
+WorkLoadDetails,application_id,Foreign key linking to the specific application in SubmittedApplications table. Establishes which application requires line department verification.,,"FK(AllApplications, application_id)",PLAIN_TEXT,,application_id,bn_prod_analytics.workload_details,Yes
+WorkLoadDetails,cad_file_url,,,,PLAIN_TEXT,,cad_file_url,bn_prod_analytics.workload_details,No
+WorkLoadDetails,creation_datetime,Timestamp when the workload detail record was created,,,DATE_TIME,,creation_datetime,bn_prod_analytics.workload_details,Yes
+WorkLoadDetails,completed_at,Timestamp when the workload was completed,,,DATE_TIME,,completed_at,bn_prod_analytics.workload_details,Yes
+WorkLoadDetails,status,"Current status of the workload (COMPLETED, IN_PROGRESS, CALLED_TO_AUTOCAD, FAILED)",,,DROPDOWN,"COMPLETED
+IN_PROGRESS
+CALLED_TO_AUTOCAD
+FAILED",status,bn_prod_analytics.workload_details,Yes
+WorkLoadDetails,area_as_per_drawing,,,,FLOAT,,area_as_per_drawing,bn_prod_analytics.workload_details,No
+WorkLoadDetails,activity_status_DRAWING_PDF_GENERATION,,,,DROP_DOWN,,activity_status_DRAWING_PDF_GENERATION,bn_prod_analytics.workload_details,No
+WorkLoadDetails,result_status_DRAWING_PDF_GENERATION,,,,DROP_DOWN,,result_status_DRAWING_PDF_GENERATION,bn_prod_analytics.workload_details,No
+WorkLoadDetails,activity_reference_id_DRAWING_PDF_GENERATION,,,,DROP_DOWN,,activity_reference_id_DRAWING_PDF_GENERATION,bn_prod_analytics.workload_details,No
+WorkLoadDetails,failure_remarks_DRAWING_PDF_GENERATION,,,,PLAIN_TEXT,,failure_remarks_DRAWING_PDF_GENERATION,bn_prod_analytics.workload_details,No
+WorkLoadDetails,reason_for_failure_DRAWING_PDF_GENERATION,,,,PLAIN_TEXT,,reason_for_failure_DRAWING_PDF_GENERATION,bn_prod_analytics.workload_details,No
+WorkLoadDetails,metadata_DRAWING_PDF_GENERATION,,,,PLAIN_TEXT,,metadata_DRAWING_PDF_GENERATION,bn_prod_analytics.workload_details,No
+WorkLoadDetails,activity_end_datetime_DRAWING_PDF_GENERATION,,,,DATE_TIME,,activity_end_datetime_DRAWING_PDF_GENERATION,bn_prod_analytics.workload_details,No
+WorkLoadDetails,activity_callback_received_datetime_DRAWING_PDF_GENERATION,,,,DATE_TIME,,activity_callback_received_datetime_DRAWING_PDF_GENERATION,bn_prod_analytics.workload_details,No
+WorkLoadDetails,creation_datetime_DRAWING_PDF_GENERATION,,,,DATE_TIME,,creation_datetime_DRAWING_PDF_GENERATION,bn_prod_analytics.workload_details,No
+WorkLoadDetails,execution_completed_at_DRAWING_PDF_GENERATION,,,,DATE_TIME,,execution_completed_at_DRAWING_PDF_GENERATION,bn_prod_analytics.workload_details,No
+WorkLoadDetails,queue_time_DRAWING_PDF_GENERATION,,,,INTEGER,,queue_time_DRAWING_PDF_GENERATION,bn_prod_analytics.workload_details,No
+WorkLoadDetails,download_time_DRAWING_PDF_GENERATION,,,,INTEGER,,download_time_DRAWING_PDF_GENERATION,bn_prod_analytics.workload_details,No
+WorkLoadDetails,instructions_execution_time_DRAWING_PDF_GENERATION,,,,INTEGER,,instructions_execution_time_DRAWING_PDF_GENERATION,bn_prod_analytics.workload_details,No
+WorkLoadDetails,upload_time_DRAWING_PDF_GENERATION,,,,INTEGER,,upload_time_DRAWING_PDF_GENERATION,bn_prod_analytics.workload_details,No
+WorkLoadDetails,activity_status_DRAWING_PDF_INTERMEDIATE,,,,DROP_DOWN,,activity_status_DRAWING_PDF_INTERMEDIATE,bn_prod_analytics.workload_details,No
+WorkLoadDetails,result_status_DRAWING_PDF_INTERMEDIATE,,,,DROP_DOWN,,result_status_DRAWING_PDF_INTERMEDIATE,bn_prod_analytics.workload_details,No
+WorkLoadDetails,activity_reference_id_DRAWING_PDF_INTERMEDIATE,,,,PLAIN_TEXT,,activity_reference_id_DRAWING_PDF_INTERMEDIATE,bn_prod_analytics.workload_details,No
+WorkLoadDetails,failure_remarks_DRAWING_PDF_INTERMEDIATE,,,,PLAIN_TEXT,,failure_remarks_DRAWING_PDF_INTERMEDIATE,bn_prod_analytics.workload_details,No
+WorkLoadDetails,reason_for_failure_DRAWING_PDF_INTERMEDIATE,,,,PLAIN_TEXT,,reason_for_failure_DRAWING_PDF_INTERMEDIATE,bn_prod_analytics.workload_details,No
+WorkLoadDetails,metadata_DRAWING_PDF_INTERMEDIATE,,,,PLAIN_TEXT,,metadata_DRAWING_PDF_INTERMEDIATE,bn_prod_analytics.workload_details,No
+WorkLoadDetails,activity_end_datetime_DRAWING_PDF_INTERMEDIATE,,,,DATE_TIME,,activity_end_datetime_DRAWING_PDF_INTERMEDIATE,bn_prod_analytics.workload_details,No
+WorkLoadDetails,activity_callback_received_datetime_DRAWING_PDF_INTERMEDIATE,,,,DATE_TIME,,activity_callback_received_datetime_DRAWING_PDF_INTERMEDIATE,bn_prod_analytics.workload_details,No
+WorkLoadDetails,creation_datetime_DRAWING_PDF_INTERMEDIATE,,,,DATE_TIME,,creation_datetime_DRAWING_PDF_INTERMEDIATE,bn_prod_analytics.workload_details,No
+WorkLoadDetails,execution_completed_at_DRAWING_PDF_INTERMEDIATE,,,,DATE_TIME,,execution_completed_at_DRAWING_PDF_INTERMEDIATE,bn_prod_analytics.workload_details,No
+WorkLoadDetails,queue_time_DRAWING_PDF_INTERMEDIATE,,,,INTEGER,,queue_time_DRAWING_PDF_INTERMEDIATE,bn_prod_analytics.workload_details,No
+WorkLoadDetails,download_time_DRAWING_PDF_INTERMEDIATE,,,,INTEGER,,download_time_DRAWING_PDF_INTERMEDIATE,bn_prod_analytics.workload_details,No
+WorkLoadDetails,instructions_execution_time_DRAWING_PDF_INTERMEDIATE,,,,INTEGER,,instructions_execution_time_DRAWING_PDF_INTERMEDIATE,bn_prod_analytics.workload_details,No
+WorkLoadDetails,upload_time_DRAWING_PDF_INTERMEDIATE,,,,INTEGER,,upload_time_DRAWING_PDF_INTERMEDIATE,bn_prod_analytics.workload_details,No
+WorkLoadDetails,activity_status_SCRUTINY,,,,DROP_DOWN,,activity_status_SCRUTINY,bn_prod_analytics.workload_details,No
+WorkLoadDetails,result_status_SCRUTINY,,,,DROP_DOWN,,result_status_SCRUTINY,bn_prod_analytics.workload_details,No
+WorkLoadDetails,activity_reference_id_SCRUTINY,,,,PLAIN_TEXT,,activity_reference_id_SCRUTINY,bn_prod_analytics.workload_details,No
+WorkLoadDetails,failure_remarks_SCRUTINY,,,,PLAIN_TEXT,,failure_remarks_SCRUTINY,bn_prod_analytics.workload_details,No
+WorkLoadDetails,reason_for_failure_SCRUTINY,,,,PLAIN_TEXT,,reason_for_failure_SCRUTINY,bn_prod_analytics.workload_details,No
+WorkLoadDetails,metadata_SCRUTINY,,,,PLAIN_TEXT,,metadata_SCRUTINY,bn_prod_analytics.workload_details,No
+WorkLoadDetails,activity_end_datetime_SCRUTINY,,,,DATE_TIME,,activity_end_datetime_SCRUTINY,bn_prod_analytics.workload_details,No
+WorkLoadDetails,activity_callback_received_datetime_SCRUTINY,,,,DATE_TIME,,activity_callback_received_datetime_SCRUTINY,bn_prod_analytics.workload_details,No
+WorkLoadDetails,creation_datetime_SCRUTINY,,,,DATE_TIME,,creation_datetime_SCRUTINY,bn_prod_analytics.workload_details,No
+WorkLoadDetails,execution_completed_at_SCRUTINY,,,,DATE_TIME,,execution_completed_at_SCRUTINY,bn_prod_analytics.workload_details,No
+WorkLoadDetails,queue_time_SCRUTINY,,,,INTEGER,,queue_time_SCRUTINY,bn_prod_analytics.workload_details,No
+WorkLoadDetails,download_time_SCRUTINY,,,,INTEGER,,download_time_SCRUTINY,bn_prod_analytics.workload_details,No
+WorkLoadDetails,instructions_execution_time_SCRUTINY,,,,INTEGER,,instructions_execution_time_SCRUTINY,bn_prod_analytics.workload_details,No
+WorkLoadDetails,upload_time_SCRUTINY,,,,INTEGER,,upload_time_SCRUTINY,bn_prod_analytics.workload_details,No
+WorkLoadDetails,activity_status_PRE_SCRUTINY,,,,DROP_DOWN,,activity_status_PRE_SCRUTINY,bn_prod_analytics.workload_details,No
+WorkLoadDetails,result_status_PRE_SCRUTINY,,,,DROP_DOWN,,result_status_PRE_SCRUTINY,bn_prod_analytics.workload_details,No
+WorkLoadDetails,activity_reference_id_PRE_SCRUTINY,,,,PLAIN_TEXT,,activity_reference_id_PRE_SCRUTINY,bn_prod_analytics.workload_details,No
+WorkLoadDetails,failure_remarks_PRE_SCRUTINY,,,,PLAIN_TEXT,,failure_remarks_PRE_SCRUTINY,bn_prod_analytics.workload_details,No
+WorkLoadDetails,reason_for_failure_PRE_SCRUTINY,,,,PLAIN_TEXT,,reason_for_failure_PRE_SCRUTINY,bn_prod_analytics.workload_details,No
+WorkLoadDetails,metadata_PRE_SCRUTINY,,,,PLAIN_TEXT,,metadata_PRE_SCRUTINY,bn_prod_analytics.workload_details,No
+WorkLoadDetails,activity_end_datetime_PRE_SCRUTINY,,,,DATE_TIME,,activity_end_datetime_PRE_SCRUTINY,bn_prod_analytics.workload_details,No
+WorkLoadDetails,activity_callback_received_datetime_PRE_SCRUTINY,,,,DATE_TIME,,activity_callback_received_datetime_PRE_SCRUTINY,bn_prod_analytics.workload_details,No
+WorkLoadDetails,creation_datetime_PRE_SCRUTINY,,,,DATE_TIME,,creation_datetime_PRE_SCRUTINY,bn_prod_analytics.workload_details,No
+WorkLoadDetails,execution_completed_at_PRE_SCRUTINY,,,,DATE_TIME,,execution_completed_at_PRE_SCRUTINY,bn_prod_analytics.workload_details,No
+WorkLoadDetails,queue_time_PRE_SCRUTINY,,,,INTEGER,,queue_time_PRE_SCRUTINY,bn_prod_analytics.workload_details,No
+WorkLoadDetails,download_time_PRE_SCRUTINY,,,,INTEGER,,download_time_PRE_SCRUTINY,bn_prod_analytics.workload_details,No
+WorkLoadDetails,instructions_execution_time_PRE_SCRUTINY,,,,INTEGER,,instructions_execution_time_PRE_SCRUTINY,bn_prod_analytics.workload_details,No
+WorkLoadDetails,upload_time_PRE_SCRUTINY,,,,INTEGER,,upload_time_PRE_SCRUTINY,bn_prod_analytics.workload_details,No
+WorkLoadDetails,activity_status_DRAWING_FILE_VALIDATION,,,,DROP_DOWN,,activity_status_DRAWING_FILE_VALIDATION,bn_prod_analytics.workload_details,No
+WorkLoadDetails,result_status_DRAWING_FILE_VALIDATION,,,,DROP_DOWN,,result_status_DRAWING_FILE_VALIDATION,bn_prod_analytics.workload_details,No
+WorkLoadDetails,activity_reference_id_DRAWING_FILE_VALIDATION,,,,PLAIN_TEXT,,activity_reference_id_DRAWING_FILE_VALIDATION,bn_prod_analytics.workload_details,No
+WorkLoadDetails,failure_remarks_DRAWING_FILE_VALIDATION,,,,PLAIN_TEXT,,failure_remarks_DRAWING_FILE_VALIDATION,bn_prod_analytics.workload_details,No
+WorkLoadDetails,reason_for_failure_DRAWING_FILE_VALIDATION,,,,PLAIN_TEXT,,reason_for_failure_DRAWING_FILE_VALIDATION,bn_prod_analytics.workload_details,No
+WorkLoadDetails,metadata_DRAWING_FILE_VALIDATION,,,,PLAIN_TEXT,,metadata_DRAWING_FILE_VALIDATION,bn_prod_analytics.workload_details,No
+WorkLoadDetails,activity_end_datetime_DRAWING_FILE_VALIDATION,,,,DATE_TIME,,activity_end_datetime_DRAWING_FILE_VALIDATION,bn_prod_analytics.workload_details,No
+WorkLoadDetails,activity_callback_received_datetime_DRAWING_FILE_VALIDATION,,,,DATE_TIME,,activity_callback_received_datetime_DRAWING_FILE_VALIDATION,bn_prod_analytics.workload_details,No
+WorkLoadDetails,creation_datetime_DRAWING_FILE_VALIDATION,,,,DATE_TIME,,creation_datetime_DRAWING_FILE_VALIDATION,bn_prod_analytics.workload_details,No
+WorkLoadDetails,execution_completed_at_DRAWING_FILE_VALIDATION,,,,DATE_TIME,,execution_completed_at_DRAWING_FILE_VALIDATION,bn_prod_analytics.workload_details,No
+WorkLoadDetails,queue_time_DRAWING_FILE_VALIDATION,,,,INTEGER,,queue_time_DRAWING_FILE_VALIDATION,bn_prod_analytics.workload_details,No
+WorkLoadDetails,download_time_DRAWING_FILE_VALIDATION,,,,INTEGER,,download_time_DRAWING_FILE_VALIDATION,bn_prod_analytics.workload_details,No
+WorkLoadDetails,instructions_execution_time_DRAWING_FILE_VALIDATION,,,,INTEGER,,instructions_execution_time_DRAWING_FILE_VALIDATION,bn_prod_analytics.workload_details,No
+WorkLoadDetails,upload_time_DRAWING_FILE_VALIDATION,,,,INTEGER,,upload_time_DRAWING_FILE_VALIDATION,bn_prod_analytics.workload_details,No
+WorkLoadDetails,ProjectType,,,,DROP_DOWN,,ProjectType,bn_prod_analytics.workload_details,No
+WorkLoadDetails,ReferenceID,,,,PLAIN_TEXT,,ReferenceID,bn_prod_analytics.workload_details,No
+WorkLoadDetails,Authority,,,,DROP_DOWN,,Authority,bn_prod_analytics.workload_details,No
+WorkLoadDetails,NatureOfDevelopment,,,,DROP_DOWN,,NatureOfDevelopment,bn_prod_analytics.workload_details,No
+WorkLoadDetails,Location,,,,DROP_DOWN,,Location,bn_prod_analytics.workload_details,No
+WorkLoadDetails,SiteCategory,,,,DROP_DOWN,,SiteCategory,bn_prod_analytics.workload_details,No
+WorkLoadDetails,PlotUse,,,,DROP_DOWN,,PlotUse,bn_prod_analytics.workload_details,No
+WorkLoadDetails,PlotSubUse,,,,DROP_DOWN,,PlotSubUse,bn_prod_analytics.workload_details,No
+WorkLoadDetails,SpecialBuildingType,,,,DROP_DOWN,,SpecialBuildingType,bn_prod_analytics.workload_details,No
+WorkLoadDetails,PlotAreaAsPerDocument,Plot area measurement as documented in the application,,,FLOAT,,PlotAreaAsPerDocument,bn_prod_analytics.workload_details,Yes
+WorkLoadDetails,EffectedByRoadWidening,,,,PLAIN_TEXT,,EffectedByRoadWidening,bn_prod_analytics.workload_details,No
+WorkLoadDetails,AvailRoadWideningConcession,,,,PLAIN_TEXT,,AvailRoadWideningConcession,bn_prod_analytics.workload_details,No
+WorkLoadDetails,RoadWideningConcessionFor,,,,PLAIN_TEXT,,RoadWideningConcessionFor,bn_prod_analytics.workload_details,No
+WorkLoadDetails,EffectedByNalaWidening,,,,PLAIN_TEXT,,EffectedByNalaWidening,bn_prod_analytics.workload_details,No
+WorkLoadDetails,AvailNalaWideningConcession,,,,PLAIN_TEXT,,AvailNalaWideningConcession,bn_prod_analytics.workload_details,No
+WorkLoadDetails,NalaWideningConcessionFor,,,,PLAIN_TEXT,,NalaWideningConcessionFor,bn_prod_analytics.workload_details,No
+WorkLoadDetails,AvailTDR,,,,PLAIN_TEXT,,AvailTDR,bn_prod_analytics.workload_details,No
+WorkLoadDetails,DoYouWantToAvailExtraMortgageForNalaConversion,,,,PLAIN_TEXT,,DoYouWantToAvailExtraMortgageForNalaConversion,bn_prod_analytics.workload_details,No
+WorkLoadDetails,DoYouWantToAvailExtraMortgageForCityLevelImpactFee,,,,PLAIN_TEXT,,DoYouWantToAvailExtraMortgageForCityLevelImpactFee,bn_prod_analytics.workload_details,No
+WorkLoadDetails,DoYouWantToAvailExtraMortgageForCapitalizationCharges,,,,PLAIN_TEXT,,DoYouWantToAvailExtraMortgageForCapitalizationCharges,bn_prod_analytics.workload_details,No
+WorkLoadDetails,DoesSpecialRegulationsForBanjaraHillsAndJubileeHillsApply,,,,PLAIN_TEXT,,DoesSpecialRegulationsForBanjaraHillsAndJubileeHillsApply,bn_prod_analytics.workload_details,No
+WorkLoadDetails,SpecialRegulationLocation,,,,PLAIN_TEXT,,SpecialRegulationLocation,bn_prod_analytics.workload_details,No
+WorkLoadDetails,LTPLicenseNo,,,,PLAIN_TEXT,,LTPLicenseNo,bn_prod_analytics.workload_details,Yes
+WorkLoadDetails,LTPName,,,,PLAIN_TEXT,,LTPName,bn_prod_analytics.workload_details,Yes
+WorkLoadDetails,AvailTransferOfSetbacks,,,,PLAIN_TEXT,,AvailTransferOfSetbacks,bn_prod_analytics.workload_details,No
+WorkLoadDetails,AvailConcessionType,,,,PLAIN_TEXT,,AvailConcessionType,bn_prod_analytics.workload_details,No
+WorkLoadDetails,ConcessionFor,,,,PLAIN_TEXT,,ConcessionFor,bn_prod_analytics.workload_details,No
+WorkLoadDetails,pre_scrutiny_display_status,,,,DROPDOWN,"Failed
+Passed
+In Progress
+Unsuccessful
+Invalid",pre_scrutiny_display_status,bn_prod_analytics.workload_details,Yes
+WorkLoadDetails,scrutiny_display_status,,,,DROPDOWN,"Failed
+Passed
+In Progress
+Unsuccessful
+Invalid",scrutiny_display_status,bn_prod_analytics.workload_details,Yes
+WorkLoadDetails,drawing_pdf_display_status,,,,DROPDOWN,"In Progress
+Unsuccessful
+Passed
+Failed
+Invalid",drawing_pdf_display_status,bn_prod_analytics.workload_details,Yes
+WorkLoadDetails,pre_scrutiny_time_in_sec,,,,INTEGER,,pre_scrutiny_time_in_sec,bn_prod_analytics.workload_details,Yes
+WorkLoadDetails,scrutiny_time_in_sec,,,,INTEGER,,scrutiny_time_in_sec,bn_prod_analytics.workload_details,Yes
+WorkLoadDetails,actual_scrutiny_time_in_sec,Actual time taken for scrutiny process in seconds,,,INTEGER,,actual_scrutiny_time_in_sec,bn_prod_analytics.workload_details,Yes
+WorkLoadDetails,drawing_pdf_time_in_sec,,,,INTEGER,,drawing_pdf_time_in_sec,bn_prod_analytics.workload_details,Yes
+WorkLoadDetails,workload_rank,,,,INTEGER,,workload_rank,bn_prod_analytics.workload_details,Yes
+,,,,,,,,,
+ApplicationLineDepartmentDetails,id,Unique identifier for each line department verification record. Primary key for tracking individual departmental review assignments.,Yes,,INTEGER,,id,bn_prod_analytics.application_line_department_details,Yes
+ApplicationLineDepartmentDetails,application_id,Foreign key linking to the specific application in SubmittedApplications table. Establishes which application requires line department verification.,,"FK(SubmittedApplications, application_id)",PLAIN_TEXT,,application_id,bn_prod_analytics.application_line_department_details,Yes
+ApplicationLineDepartmentDetails,officer_id,Foreign key referencing the specific officer assigned to review this application from the line department. Links to Officers table for officer details.,,"FK(Officers, officer_id)",PLAIN_TEXT,,officer_id,bn_prod_analytics.application_line_department_details,Yes
+ApplicationLineDepartmentDetails,officer_category,"Department classification of the assigned officer (REVENUE for land verification, IRRIGATION for water clearances, TITLE for ownership verification, FIRE for safety clearances). Determines the type of verification required.",,,DROPDOWN,"REVENUE
+IRRIGATION
+TITLE
+FIRE",officer_category,bn_prod_analytics.application_line_department_details,Yes
+ApplicationLineDepartmentDetails,remaining_time_left_in_sec,Time remaining (in seconds) for the officer to complete their departmental review within prescribed SLA timelines. Used for deadline monitoring and escalation alerts.,,,INTEGER,,remaining_time_left_in_sec,bn_prod_analytics.application_line_department_details,Yes
+ApplicationLineDepartmentDetails,officer_assigned_datetime,Date and time when the specific officer was assigned this application for departmental review. Marks the start of line department processing timeline.,,,DATE_TIME,,officer_assigned_datetime,bn_prod_analytics.application_line_department_details,Yes
+ApplicationLineDepartmentDetails,department_status,"Current status of the departmental verification process. ""Yet to Verify"" indicates pending review, ""Completed"" indicates finished verification by the assigned officer.",,,DROPDOWN,"Yet to Verify
+Completed",department_status,bn_prod_analytics.application_line_department_details,Yes
+ApplicationLineDepartmentDetails,officer_processed_datetime,Date and time when the officer completed their departmental review and submitted their verification decision. Used for calculating processing time and efficiency metrics.,,,DATE_TIME,,officer_processed_datetime,bn_prod_analytics.application_line_department_details,Yes
+ApplicationLineDepartmentDetails,sla_time_in_sec,Total time allocated (in seconds) for this specific departmental verification as per Service Level Agreement. Used for SLA compliance monitoring and performance measurement.,,,INTEGER,,sla_time_in_sec,bn_prod_analytics.application_line_department_details,Yes
+,,,,,,,,,
+,,,,,,,,,
+CitizenStageChangeLog,id,Unique identifier for the stage transition record,Yes,,INTEGER,,id,bn_prod_analytics.citizen_stage_change_log,Yes
+CitizenStageChangeLog,application_id,Foreign key linking to the specific application in SubmittedApplications table. Establishes which application requires line department verification.,,"FK(SubmittedApplications, application_id)",PLAIN_TEXT,,application_id,bn_prod_analytics.citizen_stage_change_log,Yes
+CitizenStageChangeLog,from_stage_id,The Unique ID of the previous status of the application as seen by the citizen — before the current update.,,,PLAIN_TEXT,,from_stage_id,bn_prod_analytics.citizen_stage_change_log,Yes
+CitizenStageChangeLog,to_stage_id,The unique ID of the new status of the application as visible to the citizen — after the latest update.,,,PLAIN_TEXT,,to_stage_id,bn_prod_analytics.citizen_stage_change_log,Yes
+CitizenStageChangeLog,from_stage_name,"The previous status of the application as seen by the citizen — e.g., “Submitted” or “Under Review” — before the current update.",,,DROPDOWN,"Draft
+Payment Pending
+Under Department Verification
+Other Department Verification In Progress
+Shortfall
+Revised Payment Pending
+Approved
+Rejected
+Draft In Progress
+Scrutiny Failed
+Scrutiny Key Generated
+Scrutiny Successful
+Under Mortgage & Other Info Verification
+Proceedings Generated
+Processing Fee Pending
+Submit TDR Details
+Awaiting TDR Confirmation
+Initiating Resubmission
+Mortgage & Other Info pending
+Issue in Mortgage & Other Info Details
+Shortfall Scrutiny Failed
+Issue in TDR Details
+Application On-Hold
+Issue in Relinquishment Details
+Relinquishment Details Pending
+Under Relinquishment Details Verification",from_stage_name,bn_prod_analytics.citizen_stage_change_log,Yes
+CitizenStageChangeLog,to_stage_name,"The new status of the application as visible to the citizen — e.g., “Approved” or “Rejected” — after the latest update.",,,DROPDOWN,"Draft
+Payment Pending
+Under Department Verification
+Other Department Verification In Progress
+Shortfall
+Revised Payment Pending
+Approved
+Rejected
+Draft In Progress
+Scrutiny Failed
+Scrutiny Key Generated
+Scrutiny Successful
+Under Mortgage & Other Info Verification
+Proceedings Generated
+Processing Fee Pending
+Submit TDR Details
+Awaiting TDR Confirmation
+Initiating Resubmission
+Mortgage & Other Info pending
+Issue in Mortgage & Other Info Details
+Shortfall Scrutiny Failed
+Issue in TDR Details
+Application On-Hold
+Issue in Relinquishment Details
+Relinquishment Details Pending
+Under Relinquishment Details Verification",to_stage_name,bn_prod_analytics.citizen_stage_change_log,Yes
+CitizenStageChangeLog,stage_changed_at,"Timestamp indicating when the stage transition occurred (i.e., when the status was updated).",,,DATE_TIME,,stage_changed_at,bn_prod_analytics.citizen_stage_change_log,Yes
+,,,,,,,,,
+OfficerStageChangeLog,id,Unique identifier for the stage transition record,Yes,,INTEGER,,id,bn_prod_analytics.officer_stage_change_log,Yes
+OfficerStageChangeLog,application_id,Foreign key linking to the specific application in SubmittedApplications table. Establishes which application requires line department verification.,,"FK(SubmittedApplications, application_id)",PLAIN_TEXT,,application_id,bn_prod_analytics.officer_stage_change_log,Yes
+OfficerStageChangeLog,from_stage_id,The Unique ID of the previous status of the application as seen by the officer — before the current update.,,,PLAIN_TEXT,,from_stage_id,bn_prod_analytics.officer_stage_change_log,Yes
+OfficerStageChangeLog,to_stage_id,The unique ID of the new status of the application as visible to the officer — after the latest update.,,,PLAIN_TEXT,,to_stage_id,bn_prod_analytics.officer_stage_change_log,Yes
+OfficerStageChangeLog,from_stage_name,"The previous status of the application as seen by the officer — e.g., “Under L1 verification” or “Proceedings Generated” — before the current update.",,,DROPDOWN,"Under L1 Verification
+Under L1(STO)/L1(TVO) Verification
+Under (STO) Verification
+Under L2 Verification
+Under (TVO) Verification
+Under L3 Verification
+On Hold For Line Dept Remarks
+Rejected
+Shortfall
+Revised Fee Intimation Sent
+Approved
+Under L1(APO/JPO)/L1(TVO) Verification
+Under L1(ACP)/L1 (TVO) Verification
+Under L1(SI)/L1(TTVO) Verification
+Under (TTVO) Verification
+Under (SI) Verification
+Under L1(APO/JPO) Verification
+Under L1(ACP) Verification
+Under L4 Verification
+Proceedings Generated
+Final Payment Pending
+Rejection Verification by L2
+Awaiting TDR Confirmation
+Final Payment Paid
+Mortgage & Other Info pending
+Under Post Payment Details Verification by L2
+Issue Proceedings by L2
+Post Payment Details Shortfall
+Under Post Payment Details Verification by L1
+Under Post Payment Details Verification by L3
+Verify TDR Details
+TDR Accepted by Owner
+Verify TDR Details by L2
+Rejected with Refund
+Rejected without Refund
+TDR Shortfall
+Application On-Hold
+Reject with Refund
+TDR shortfall
+Relinquishment Details Shortfall
+Yet to Submit Relinquishment Deed",from_stage_name,bn_prod_analytics.officer_stage_change_log,Yes
+OfficerStageChangeLog,to_stage_name,"The new status of the application as visible to the officer — e.g., “Under L1 verification” or “Proceedings Generated” — after the latest update.",,,DROPDOWN,"Under L1 Verification
+Under L1(STO)/L1(TVO) Verification
+Under (STO) Verification
+Under L2 Verification
+Under (TVO) Verification
+Under L3 Verification
+On Hold For Line Dept Remarks
+Rejected
+Shortfall
+Revised Fee Intimation Sent
+Approved
+Under L1(APO/JPO)/L1(TVO) Verification
+Under L1(ACP)/L1 (TVO) Verification
+Under L1(SI)/L1(TTVO) Verification
+Under (TTVO) Verification
+Under (SI) Verification
+Under L1(APO/JPO) Verification
+Under L1(ACP) Verification
+Under L4 Verification
+Proceedings Generated
+Final Payment Pending
+Rejection Verification by L2
+Awaiting TDR Confirmation
+Final Payment Paid
+Mortgage & Other Info pending
+Under Post Payment Details Verification by L2
+Issue Proceedings by L2
+Post Payment Details Shortfall
+Under Post Payment Details Verification by L1
+Under Post Payment Details Verification by L3
+Verify TDR Details
+TDR Accepted by Owner
+Verify TDR Details by L2
+Rejected with Refund
+Rejected without Refund
+TDR Shortfall
+Application On-Hold
+Reject with Refund
+TDR shortfall
+Relinquishment Details Shortfall
+Yet to Submit Relinquishment Deed",to_stage_name,bn_prod_analytics.officer_stage_change_log,Yes
+OfficerStageChangeLog,stage_changed_at,"Timestamp indicating when the stage transition occurred (i.e., when the status was updated).",,,DATE_TIME,,stage_changed_at,bn_prod_analytics.officer_stage_change_log,Yes

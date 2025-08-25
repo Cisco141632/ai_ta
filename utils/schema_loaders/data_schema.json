@@ -1,0 +1,1720 @@
+[
+  {
+    "Table Description": "The AllApplications table contains all (building, layout permission, etc) applications in the BuildNow system, regardless of their current status. This includes draft applications still being prepared by citizens or architects, applications under various stages of review by government authorities (DTCP, GHMC, HMDA), failed applications requiring corrections, and completed applications (approved/rejected)...\n\nThis table stores both submitted and non-submitted applications. Submitted applications are separately maintained in the SubmittedApplications table. To identify draft or non-submitted applications, exclude records that exist in the SubmittedApplications table.",
+    "Table Name": "AllApplications",
+    "big_query_table_name": "bn_prod_analytics.all_applications",
+    "fields": [
+      {
+        "bigquery_column_name": "application_id",
+        "field_description": "Unique identifier for each application. It is also referred to as pipeline_item_id. Use this field to uniquely identify and reference specific applications in queries and joins.",
+        "field_id": "",
+        "field_name": "application_id",
+        "field_type": "PLAIN_TEXT",
+        "fk_config": null,
+        "is_primary_key": true,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "file_id",
+        "field_description": "Official file reference number assigned to each application. Also called file number (file no.). It will be generally used as a key to search application details by citizen / officer / architect....",
+        "field_id": "",
+        "field_name": "file_id",
+        "field_type": "PLAIN_TEXT",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "application_created_datetime",
+        "field_description": "Date and time when the application record was first created in the system. Use for temporal analysis, filtering by creation periods, or tracking application created patterns.",
+        "field_id": "",
+        "field_name": "application_created_datetime",
+        "field_type": "DATE_TIME",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "application_type",
+        "field_description": "This is the main classification for the type of application proposed.",
+        "field_id": "",
+        "field_name": "application_type",
+        "field_type": "DROPDOWN",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": [
+          "Instant Registration",
+          "Single Window",
+          "Instant Approval"
+        ]
+      },
+      {
+        "bigquery_column_name": "proposal_type",
+        "field_description": "Specific subcategory within the application_type that details the exact nature of the construction/development work. Provides more granular classification than application_type.",
+        "field_id": "",
+        "field_name": "proposal_type",
+        "field_type": "DROPDOWN",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": [
+          "Building Permission",
+          "Compound Wall",
+          "Layout Open Plot",
+          "Layout with Housing Under Gated Community (With Compound Wall)",
+          "Layout with Housing without Gated and Community"
+        ]
+      },
+      {
+        "bigquery_column_name": "authority",
+        "field_description": "Government agency or municipal body responsible for processing and approving the application. Use to filter applications by reviewing authority or analyze workload distribution.",
+        "field_id": "",
+        "field_name": "authority",
+        "field_type": "DROPDOWN",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": [
+          "DTCP",
+          "GHMC",
+          "HMDA"
+        ]
+      },
+      {
+        "bigquery_column_name": "name_of_applicant",
+        "field_description": "Full legal name of the person or entity submitting the application. May contain null values for incomplete records. Use for applicant identification and analysis.",
+        "field_id": "",
+        "field_name": "name_of_applicant",
+        "field_type": "PLAIN_TEXT",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "architect_name",
+        "field_description": "Name of the licensed architect who prepared the building plans / layout plan",
+        "field_id": "",
+        "field_name": "architect_name",
+        "field_type": "PLAIN_TEXT",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "temp_file_id",
+        "field_description": "Temporary file identifier assigned when application is initially created, before official file_id is assigned. System generates this immediately upon application creation (format: BN12345678). Useful for tracking applications in early stages.",
+        "field_id": "",
+        "field_name": "temp_file_id",
+        "field_type": "PLAIN_TEXT",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "current_citizen_stage",
+        "field_description": "Current status of the application that is displayed to the citizen. ",
+        "field_id": "",
+        "field_name": "current_citizen_stage",
+        "field_type": "DROPDOWN",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": [
+          "Draft",
+          "Payment Pending",
+          "Under Department Verification",
+          "Other Department Verification In Progress",
+          "Shortfall",
+          "Revised Payment Pending",
+          "Approved",
+          "Rejected",
+          "Draft In Progress",
+          "Scrutiny Failed",
+          "Scrutiny Key Generated",
+          "Scrutiny Successful",
+          "Under Mortgage & Other Info Verification",
+          "Proceedings Generated",
+          "Processing Fee Pending",
+          "Submit TDR Details",
+          "Awaiting TDR Confirmation",
+          "Initiating Resubmission",
+          "Mortgage & Other Info pending",
+          "Issue in Mortgage & Other Info Details",
+          "Shortfall Scrutiny Failed",
+          "Issue in TDR Details",
+          "Application On-Hold",
+          "Issue in Relinquishment Details",
+          "Relinquishment Details Pending",
+          "Under Relinquishment Details Verification"
+        ]
+      },
+      {
+        "bigquery_column_name": "current_citizen_stage_id",
+        "field_description": "unique identifier corresponding to the current citizen stage",
+        "field_id": "",
+        "field_name": "current_citizen_stage_id",
+        "field_type": "PLAIN_TEXT",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "application_created_by",
+        "field_description": "Indicates the submission method - whether the application was submitted directly by the citizen/applicant or through an architect.",
+        "field_id": "",
+        "field_name": "application_created_by",
+        "field_type": "DROPDOWN",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": [
+          "Citizen",
+          "Architect"
+        ]
+      },
+      {
+        "bigquery_column_name": "application_created_by_id",
+        "field_description": "Unique identifier of the person (citizen or architect) who actually created the application record in the system. Use for tracking who initiated the application process.",
+        "field_id": "",
+        "field_name": "application_created_by_id",
+        "field_type": "PLAIN_TEXT",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": []
+      }
+    ]
+  },
+  {
+    "Table Description": "It includes applications that are submitted to department. In general context analysis will be done on submitted applications only unless asked to include draft applications also in specific. \nMajority of the analysis will be done on submitted applications only",
+    "Table Name": "SubmittedApplications",
+    "big_query_table_name": "bn_prod_analytics.submitted_applications",
+    "fields": [
+      {
+        "bigquery_column_name": "application_id",
+        "field_description": "Unique identifier for each application. It is also referred to as pipeline_item_id. Use this field to uniquely identify and reference specific applications in queries and joins.",
+        "field_id": "",
+        "field_name": "application_id",
+        "field_type": "PLAIN_TEXT",
+        "fk_config": {
+          "field_name": "application_id",
+          "table_name": "FKAllApplications"
+        },
+        "is_primary_key": true,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "file_id",
+        "field_description": "Official file reference number assigned to each application. Also called file number (file no.). It will be generally used as a key to search application details by citizen / officer / architect....",
+        "field_id": "",
+        "field_name": "file_id",
+        "field_type": "PLAIN_TEXT",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "temp_file_id",
+        "field_description": "Temporary file identifier assigned when application is initially created, before official file_id is assigned. System generates this immediately upon application creation (format: BN12345678). Useful for tracking applications in early stages.",
+        "field_id": "",
+        "field_name": "temp_file_id",
+        "field_type": "PLAIN_TEXT",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "application_type",
+        "field_description": "Primary classification indicating the type of application being submitted (e.g., Instant Registration, Single Window).",
+        "field_id": "",
+        "field_name": "application_type",
+        "field_type": "DROPDOWN",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": [
+          "Instant Registration",
+          "Single Window",
+          "Instant Approval"
+        ]
+      },
+      {
+        "bigquery_column_name": "proposal_type",
+        "field_description": "Specific subcategory under application_type that defines the nature of the proposed construction or development work in detail.",
+        "field_id": "",
+        "field_name": "proposal_type",
+        "field_type": "DROPDOWN",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": [
+          "Building Permission",
+          "Compound Wall",
+          "Layout Open Plot",
+          "Layout with Housing Under Gated Community (With Compound Wall)",
+          "Layout with Housing without Gated and Community"
+        ]
+      },
+      {
+        "bigquery_column_name": "purpose_of_building",
+        "field_description": "Indicates the intended use of the proposed building, such as residential, commercial, institutional, or industrial purposes.",
+        "field_id": "",
+        "field_name": "purpose_of_building",
+        "field_type": "DROPDOWN",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": [
+          "Residential",
+          "Educational/institutional",
+          "Commercial",
+          "Public Utility",
+          "Non Residential",
+          "Storage",
+          "Medical",
+          "Industrial",
+          "Assembly"
+        ]
+      },
+      {
+        "bigquery_column_name": "permission_type",
+        "field_description": "Specifies the type of request made in the application\u2014such as new applications, revisions, alterations to previous applications, occupancy of buildings, or final layout approvals.",
+        "field_id": "",
+        "field_name": "permission_type",
+        "field_type": "DROPDOWN",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": [
+          "New",
+          "Revision",
+          "Addition/Alteration",
+          "Occupancy Certificate",
+          "Final Layout"
+        ]
+      },
+      {
+        "bigquery_column_name": "application_category",
+        "field_description": "A derived classification that combines details from proposal_type, permission_type, and building height to define the overall nature of the application.",
+        "field_id": "",
+        "field_name": "application_category",
+        "field_type": "DROPDOWN",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": [
+          "Occupancy Certificate",
+          "Compound Wall",
+          "Non-MSB",
+          "MSB",
+          "Layout Open Plot",
+          "Final Layout",
+          "Layout with Housing"
+        ]
+      },
+      {
+        "bigquery_column_name": "application_office_category",
+        "field_description": "Indicates the administrative office category responsible for processing the application (e.g., Zonal Office, Circle Office, Head Office).",
+        "field_id": "",
+        "field_name": "application_office_category",
+        "field_type": "DROPDOWN",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": [
+          "Zonal Office",
+          "Local Office",
+          "Main Office",
+          "Head Office",
+          "Circle Office"
+        ]
+      },
+      {
+        "bigquery_column_name": "authority",
+        "field_description": "Government agency or municipal body responsible for processing and approving the application. Use to filter applications by reviewing authority or analyze workload distribution.",
+        "field_id": "",
+        "field_name": "authority",
+        "field_type": "DROPDOWN",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": [
+          "DTCP",
+          "GHMC",
+          "HMDA"
+        ]
+      },
+      {
+        "bigquery_column_name": "name_of_applicant",
+        "field_description": "Full legal name of the person or entity submitting the application. May contain null values for incomplete records. Use for applicant identification and analysis.",
+        "field_id": "",
+        "field_name": "name_of_applicant",
+        "field_type": "PLAIN_TEXT",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "architect_name",
+        "field_description": "Name of the licensed architect who prepared the building plans / layout plan",
+        "field_id": "",
+        "field_name": "architect_name",
+        "field_type": "PLAIN_TEXT",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "application_created_by",
+        "field_description": "Indicates the submission method - whether the application was submitted directly by the citizen/applicant or through an architect.",
+        "field_id": "",
+        "field_name": "application_created_by",
+        "field_type": "DROPDOWN",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": [
+          "Citizen",
+          "Architect"
+        ]
+      },
+      {
+        "bigquery_column_name": "application_created_by_id",
+        "field_description": "Unique identifier of the person (citizen or architect) who actually created the application record in the system. Use for tracking who initiated the application process.",
+        "field_id": "",
+        "field_name": "application_created_by_id",
+        "field_type": "PLAIN_TEXT",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "district",
+        "field_description": "Administrative division representing a district under which the application falls.",
+        "field_id": "",
+        "field_name": "district",
+        "field_type": "DROPDOWN",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": [
+          "Jagityal",
+          "Nalgonda",
+          "Hanumakonda",
+          "Jogulamba-Gadwal",
+          "Nagarkurnool",
+          "Wanaparthy",
+          "Kamareddy",
+          "Medak",
+          "Narayanapet",
+          "Suryapet",
+          "Mahabubnagar",
+          "Jangaon",
+          "Jayashankar-Bhupalpally",
+          "Nizamabad",
+          "Warangal",
+          "Adilabad",
+          "Sangareddy",
+          "Vikarabad",
+          "Karimnagar",
+          "Siddipet",
+          "Mahabubabad",
+          "Peddapally",
+          "Khammam",
+          "Rajanna Sircilla",
+          "Badradri-Kothagudem",
+          "Medchal - Malkajgiri",
+          "Rangareddy",
+          "Hyderabad",
+          "Yadadri - Bhuvanagiri",
+          "Nirmal",
+          "Mancherial",
+          "KomaramBheem-Asifabad"
+        ]
+      },
+      {
+        "bigquery_column_name": "mandal",
+        "field_description": "Subdivision of a district used for administrative purposes.",
+        "field_id": "",
+        "field_name": "mandal",
+        "field_type": "PLAIN_TEXT",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "village",
+        "field_description": "Name of the village related to the application",
+        "field_id": "",
+        "field_name": "village",
+        "field_type": "PLAIN_TEXT",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "zone",
+        "field_description": "Geographical or jurisdictional division used for organizing areas, often larger than a circle.",
+        "field_id": "",
+        "field_name": "zone",
+        "field_type": "DROPDOWN",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": [
+          "Kukatpally Zone",
+          "Serilingampally Zone",
+          "Khairathabad Zone",
+          "Charminar Zone",
+          "Secunderabad Zone",
+          "LB Nagar Zone",
+          "Ghatkesar Zone",
+          "Medchal Zone \u2013 I",
+          "Shamshabad Zone",
+          "Shankerpally Zone \u2013 II",
+          "Medchal Zone \u2013 II",
+          "Shankerpally Zone \u2013 I",
+          "Medchal Zone- I"
+        ]
+      },
+      {
+        "bigquery_column_name": "circle",
+        "field_description": "A smaller administrative unit within a zone",
+        "field_id": "",
+        "field_name": "circle",
+        "field_type": "DROPDOWN",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": [
+          "Serilingampally Circle 20",
+          "Chanda Nagar Circle 21",
+          "Kukatpally Circle 24",
+          "Gajularamaram Circle 26",
+          "Alwal Circle 27",
+          "Moosapet Circle 23",
+          "Qutbullapur Circle 25",
+          "Rajendra Nagar Circle 11",
+          "Saroor Nagar Circle 5",
+          "Malakpet Circle 6",
+          "Santosh Nagar Circle 7",
+          "Charminar Circle 9",
+          "LB Nagar Circle 4",
+          "Hayath Nagar Circle 3",
+          "Kapra Circle 1",
+          "Uppal Circle 2",
+          "Hayath Nagar - Circle 3",
+          "Ramachandrapuram & Patancheruvu Circle 22",
+          "Serilingampally - Circle 20",
+          "Chanda Nagar - Circle 21",
+          "Yousufguda Circle 19",
+          "Amberpet Circle 16",
+          "Musheerabad Circle 15",
+          "Begumpet Circle 30",
+          "Malkajgiri Circle 28",
+          "Secundrabad Circle 29",
+          "Alwal - Circle 27",
+          "Chandrayanagutta Circle 8",
+          "Falaknama Circle 10",
+          "Khairatabad Circle 17",
+          "Jubilee Hills Circle 18",
+          "Karwan Circle 13",
+          "Goshamahal Circle 14",
+          "Mehdipatnam Circle 12",
+          "Musheerabad - Circle 15",
+          "Malakpet - Circle 6"
+        ]
+      },
+      {
+        "bigquery_column_name": "ulb",
+        "field_description": "Name of the Urban Local Body (municipality, municipal corporation, or Gram Panchayat) under whose jurisdiction the application falls.",
+        "field_id": "",
+        "field_name": "ulb",
+        "field_type": "PLAIN_TEXT",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "organization_type",
+        "field_description": "Type of the Urban Local Body (municipality, municipal corporation, or Gram Panchayat) under whose jurisdiction the application falls.",
+        "field_id": "",
+        "field_name": "organization_type",
+        "field_type": "DROPDOWN",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": [
+          "Municipality",
+          "Municipal Corporation",
+          "Gram Panchayat"
+        ]
+      },
+      {
+        "bigquery_column_name": "application_created_datetime",
+        "field_description": "Date and time when the application record was first created in the system. Use for temporal analysis, filtering by creation periods, or tracking application created patterns.",
+        "field_id": "",
+        "field_name": "application_created_datetime",
+        "field_type": "DATE_TIME",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "date_of_submission",
+        "field_description": "Date and time when the application or request was submitted.",
+        "field_id": "",
+        "field_name": "date_of_submission",
+        "field_type": "DATE_TIME",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "approved_datetime",
+        "field_description": "Date and time when the application or request was officially approved.",
+        "field_id": "",
+        "field_name": "approved_datetime",
+        "field_type": "DATE_TIME",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "rejected_datetime",
+        "field_description": "Date and time when the application or request was rejected.",
+        "field_id": "",
+        "field_name": "rejected_datetime",
+        "field_type": "DATE_TIME",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "shortfall_datetime",
+        "field_description": "Date and time when the application or request was sent to shortfall for citizen",
+        "field_id": "",
+        "field_name": "shortfall_datetime",
+        "field_type": "DATE_TIME",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "shortfall_count",
+        "field_description": "Number of times an application was sent to shortfall",
+        "field_id": "",
+        "field_name": "shortfall_count",
+        "field_type": "INTEGER",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "fee_intimation_issued_or_approved_datetime",
+        "field_description": "Date and time when the fee intimation was either issued or approved.",
+        "field_id": "",
+        "field_name": "fee_intimation_issued_or_approved_datetime",
+        "field_type": "DATE_TIME",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "application_remaining_time_left_in_sec",
+        "field_description": "Every application will have an SLA with in which the officers needs to completer the processing. This field represents the time left for officers to complete processing the application",
+        "field_id": "",
+        "field_name": "application_remaining_time_left_in_sec",
+        "field_type": "INTEGER",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "height",
+        "field_description": "Height in meters,  (e.g., building height ).",
+        "field_id": "",
+        "field_name": "height",
+        "field_type": "FLOAT",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "current_officer_stage",
+        "field_description": "Current status of the application as viewed or handled by the respective officer in the workflow.",
+        "field_id": "",
+        "field_name": "current_officer_stage",
+        "field_type": "DROPDOWN",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": [
+          "Under L1 Verification",
+          "Under L1(STO)/L1(TVO) Verification",
+          "Under (STO) Verification",
+          "Under L2 Verification",
+          "Under (TVO) Verification",
+          "Under L3 Verification",
+          "On Hold For Line Dept Remarks",
+          "Rejected",
+          "Shortfall",
+          "Revised Fee Intimation Sent",
+          "Approved",
+          "Under L1(APO/JPO)/L1(TVO) Verification",
+          "Under L1(ACP)/L1 (TVO) Verification",
+          "Under L1(SI)/L1(TTVO) Verification",
+          "Under (TTVO) Verification",
+          "Under (SI) Verification",
+          "Under L1(APO/JPO) Verification",
+          "Under L1(ACP) Verification",
+          "Under L4 Verification",
+          "Proceedings Generated",
+          "Final Payment Pending",
+          "Rejection Verification by L2",
+          "Awaiting TDR Confirmation",
+          "Final Payment Paid",
+          "Mortgage & Other Info pending",
+          "Under Post Payment Details Verification by L2",
+          "Issue Proceedings by L2",
+          "Post Payment Details Shortfall",
+          "Under Post Payment Details Verification by L1",
+          "Under Post Payment Details Verification by L3",
+          "Verify TDR Details",
+          "TDR Accepted by Owner",
+          "Verify TDR Details by L2",
+          "Rejected with Refund",
+          "Rejected without Refund",
+          "TDR Shortfall",
+          "Application On-Hold",
+          "Reject with Refund",
+          "TDR shortfall",
+          "Relinquishment Details Shortfall",
+          "Yet to Submit Relinquishment Deed"
+        ]
+      },
+      {
+        "bigquery_column_name": "current_officer_stage_id",
+        "field_description": "Unique identifier that maps to the current officer stage in the application's lifecycle.",
+        "field_id": "",
+        "field_name": "current_officer_stage_id",
+        "field_type": "PLAIN_TEXT",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "current_citizen_stage",
+        "field_description": "Current status of the application as visible to the citizen/applicant, indicating the latest progress from their perspective.",
+        "field_id": "",
+        "field_name": "current_citizen_stage",
+        "field_type": "DROPDOWN",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": [
+          "Draft",
+          "Payment Pending",
+          "Under Department Verification",
+          "Other Department Verification In Progress",
+          "Shortfall",
+          "Revised Payment Pending",
+          "Approved",
+          "Rejected",
+          "Draft In Progress",
+          "Scrutiny Failed",
+          "Scrutiny Key Generated",
+          "Scrutiny Successful",
+          "Under Mortgage & Other Info Verification",
+          "Proceedings Generated",
+          "Processing Fee Pending",
+          "Submit TDR Details",
+          "Awaiting TDR Confirmation",
+          "Initiating Resubmission",
+          "Mortgage & Other Info pending",
+          "Issue in Mortgage & Other Info Details",
+          "Shortfall Scrutiny Failed",
+          "Issue in TDR Details",
+          "Application On-Hold",
+          "Issue in Relinquishment Details",
+          "Relinquishment Details Pending",
+          "Under Relinquishment Details Verification"
+        ]
+      },
+      {
+        "bigquery_column_name": "current_citizen_stage_id",
+        "field_description": "Unique identifier that corresponds to the current citizen-visible stage of the application.",
+        "field_id": "",
+        "field_name": "current_citizen_stage_id",
+        "field_type": "PLAIN_TEXT",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "officer_current_status",
+        "field_description": "Grouped or summarized version of officer stages to help simplify and understand officer-side progress.",
+        "field_id": "",
+        "field_name": "officer_current_status",
+        "field_type": "DROPDOWN",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": [
+          "L1 Review",
+          "L3 Review",
+          "L2 Review",
+          "Rejected",
+          "Proceedings Generated",
+          "Shortfall",
+          "Hold",
+          "Post-Payment",
+          "Payment Pending",
+          "L4 Review",
+          "Awaiting TDR Confirmation"
+        ]
+      },
+      {
+        "bigquery_column_name": "application_current_status",
+        "field_description": "Consolidated status representing the application's current stage in the officer's workflow. Used for grouped status insights.",
+        "field_id": "",
+        "field_name": "application_current_status",
+        "field_type": "DROPDOWN",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": [
+          "Under Officer Verification",
+          "Proceedings Generated",
+          "Shortfall",
+          "Under Post-Payment Process",
+          "Payment Pending",
+          "Rejected",
+          "Awaiting TDR Confirmation",
+          "Under Line Department Verification"
+        ]
+      },
+      {
+        "bigquery_column_name": "application_simplified_status",
+        "field_description": "A further simplified classification of the application status for easier reporting and understanding (e.g., In Progress, Approved, Rejected).",
+        "field_id": "",
+        "field_name": "application_simplified_status",
+        "field_type": "DROPDOWN",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": [
+          "In Progress",
+          "Rejected",
+          "Fee Intimation Issued / Approved",
+          "Shortfall",
+          "In Progress - Line Dept"
+        ]
+      },
+      {
+        "bigquery_column_name": "pending_status",
+        "field_description": "Indicates whether the application is pending with the officer or with the citizen for action.",
+        "field_id": "",
+        "field_name": "pending_status",
+        "field_type": "DROPDOWN",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": [
+          "pending_from_officer",
+          "pending_from_citizen"
+        ]
+      }
+    ]
+  },
+  {
+    "Table Description": "The ApplicationOfficers table tracks individual officer assignments and processing activities for each submitted application. This table maintains a detailed log of which officers are assigned to specific applications, their processing timelines, and SLA compliance. Each record represents a single officer's involvement in an application's review process, capturing both assignment and completion timestamps.",
+    "Table Name": "ApplicationOfficers",
+    "big_query_table_name": "bn_prod_analytics.application_officers",
+    "fields": [
+      {
+        "bigquery_column_name": "id",
+        "field_description": "Unique identifier for each officer assignment record",
+        "field_id": "",
+        "field_name": "id",
+        "field_type": "INTEGER",
+        "fk_config": null,
+        "is_primary_key": true,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "application_id",
+        "field_description": "Foreign key linking to the specific application in SubmittedApplications table. Identifies which application this officer assignment relates to.",
+        "field_id": "",
+        "field_name": "application_id",
+        "field_type": "PLAIN_TEXT",
+        "fk_config": {
+          "field_name": "application_id",
+          "table_name": "FKSubmittedApplications"
+        },
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "officer_id",
+        "field_description": "Foreign key referencing the specific officer assigned to this application. Links to Officers table for officer details and contact information.",
+        "field_id": "",
+        "field_name": "officer_id",
+        "field_type": "PLAIN_TEXT",
+        "fk_config": {
+          "field_name": "officer_id",
+          "table_name": "FKOfficers"
+        },
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "officer_category",
+        "field_description": "Specific role classification of the assigned officer within the processing hierarchy",
+        "field_id": "",
+        "field_name": "officer_category",
+        "field_type": "DROPDOWN",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": [
+          "L1-TVO",
+          "L1-STO",
+          "L4",
+          "L1-APO/JPO",
+          "L1-ACP",
+          "L3",
+          "L1",
+          "L2",
+          "L1-SI",
+          "L1-TTVO"
+        ]
+      },
+      {
+        "bigquery_column_name": "remaining_time_left_in_sec",
+        "field_description": "Time remaining (in seconds) for this officer to complete their assigned verification task within SLA guidelines. Used for deadline monitoring and escalation triggers\n\nSLA Breached (Exceed): remaining_time_left_in_sec < 0\nAt-Risk: remaining_time_left_in_sec <= 172800\nSLA Within: remaining_time_left_in_sec >= 0 (included atrisk applications)\nSLA Within: remaining_time_left_in_sec > 172800 (not included atrisk applications)\n\nwe are using this field is calcualte the Total Pending Days: Ceil((sla_time_in_sec - remaining_time_left_in_sec)/86400)",
+        "field_id": "",
+        "field_name": "remaining_time_left_in_sec",
+        "field_type": "INTEGER",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "officer_assigned_datetime",
+        "field_description": "Date and time when this specific officer was assigned to review this application. Marks the start of this officer's processing timeline.",
+        "field_id": "",
+        "field_name": "officer_assigned_datetime",
+        "field_type": "DATE_TIME",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "officer_processed_datetime",
+        "field_description": "Date and time when the officer completed their assigned verification task. Used for calculating individual processing times and efficiency metrics.",
+        "field_id": "",
+        "field_name": "officer_processed_datetime",
+        "field_type": "DATE_TIME",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "sla_time_in_sec",
+        "field_description": "Total time allocated (in seconds) for this officer's specific verification task as per Service Level Agreement. Used for SLA compliance monitoring and performance evaluation.\n\nwe are using this field is calcualte the Total Pending Days: Ceil((sla_time_in_sec - remaining_time_left_in_sec)/86400)",
+        "field_id": "",
+        "field_name": "sla_time_in_sec",
+        "field_type": "INTEGER",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": []
+      }
+    ]
+  },
+  {
+    "Table Description": "The ApplicationOfficersHierarchy table establishes the complete officer hierarchy structure for each submitted application. Unlike ApplicationOfficers which tracks individual assignments sequentially, this table provides a comprehensive view of all officers assigned across all levels (L1-L4) and specialized roles for a specific application.\n\nThis table serves as the master assignment matrix, showing the complete organizational structure responsible for processing each application.",
+    "Table Name": "ApplicationOfficersHierarchy",
+    "big_query_table_name": "bn_prod_analytics.application_officers_hierarchy",
+    "fields": [
+      {
+        "bigquery_column_name": "application_id",
+        "field_description": "Primary key and foreign key linking to the specific application in SubmittedApplications table. Each application has exactly one hierarchy record defining its complete officer structure.",
+        "field_id": "",
+        "field_name": "application_id",
+        "field_type": "PLAIN_TEXT",
+        "fk_config": {
+          "field_name": "application_id",
+          "table_name": "FKSubmittedApplications"
+        },
+        "is_primary_key": true,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "level_1_officer_id",
+        "field_description": "Officer ID assigned at Level 1 for processing the application.",
+        "field_id": "",
+        "field_name": "level_1_officer_id",
+        "field_type": "PLAIN_TEXT",
+        "fk_config": {
+          "field_name": "officer_id",
+          "table_name": "FKOfficers"
+        },
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "level_1_tvo_officer_id",
+        "field_description": "Level 1 TVO ID assigned to the application.",
+        "field_id": "",
+        "field_name": "level_1_tvo_officer_id",
+        "field_type": "PLAIN_TEXT",
+        "fk_config": {
+          "field_name": "officer_id",
+          "table_name": "FKOfficers"
+        },
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "level_1_sto_officer_id",
+        "field_description": "Level 1 STO ID responsible for the application.",
+        "field_id": "",
+        "field_name": "level_1_sto_officer_id",
+        "field_type": "PLAIN_TEXT",
+        "fk_config": {
+          "field_name": "officer_id",
+          "table_name": "FKOfficers"
+        },
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "level_1_acp_officer_id",
+        "field_description": "Level 1 ACP officer ID assigned to the application.",
+        "field_id": "",
+        "field_name": "level_1_acp_officer_id",
+        "field_type": "PLAIN_TEXT",
+        "fk_config": {
+          "field_name": "officer_id",
+          "table_name": "FKOfficers"
+        },
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "level_1_apo_jpo_officer_id",
+        "field_description": "Level 1 APO/JPO ID assigned to the application.",
+        "field_id": "",
+        "field_name": "level_1_apo_jpo_officer_id",
+        "field_type": "PLAIN_TEXT",
+        "fk_config": {
+          "field_name": "officer_id",
+          "table_name": "FKOfficers"
+        },
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "level_1_si_officer_id",
+        "field_description": "Level 1 SI officer ID handling the application.",
+        "field_id": "",
+        "field_name": "level_1_si_officer_id",
+        "field_type": "PLAIN_TEXT",
+        "fk_config": {
+          "field_name": "officer_id",
+          "table_name": "FKOfficers"
+        },
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "level_1_ttvo_officer_id",
+        "field_description": "Level 1 TTVO ID associated with the application.",
+        "field_id": "",
+        "field_name": "level_1_ttvo_officer_id",
+        "field_type": "PLAIN_TEXT",
+        "fk_config": {
+          "field_name": "officer_id",
+          "table_name": "FKOfficers"
+        },
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "level_2_officer_id",
+        "field_description": "Officer ID at Level 2 responsible for further processing of the application.",
+        "field_id": "",
+        "field_name": "level_2_officer_id",
+        "field_type": "PLAIN_TEXT",
+        "fk_config": {
+          "field_name": "officer_id",
+          "table_name": "FKOfficers"
+        },
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "level_3_officer_id",
+        "field_description": "Officer ID at Level 3 involved in reviewing or approving the application.",
+        "field_id": "",
+        "field_name": "level_3_officer_id",
+        "field_type": "PLAIN_TEXT",
+        "fk_config": {
+          "field_name": "officer_id",
+          "table_name": "FKOfficers"
+        },
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "level_4_officer_id",
+        "field_description": "Officer ID at Level 4 for final-level application processing or decision-making.",
+        "field_id": "",
+        "field_name": "level_4_officer_id",
+        "field_type": "PLAIN_TEXT",
+        "fk_config": {
+          "field_name": "officer_id",
+          "table_name": "FKOfficers"
+        },
+        "is_primary_key": false,
+        "options": []
+      }
+    ]
+  },
+  {
+    "Table Description": "The Officers table maintains the master registry of all government officers involved in the TG-bPASS application processing workflow. This includes officers from various departments and authorities (DTCP, GHMC, HMDA) as well as line department officers (Revenue, Irrigation, Fire, Title verification) who participate in the multi-level verification process.",
+    "Table Name": "Officers",
+    "big_query_table_name": "bn_prod_analytics.officers",
+    "fields": [
+      {
+        "bigquery_column_name": "officer_id",
+        "field_description": "Unique identifier for each officer. Primary key used to reference officers in application assignments, workflow tracking, and departmental verification processes.",
+        "field_id": "",
+        "field_name": "officer_id",
+        "field_type": "PLAIN_TEXT",
+        "fk_config": null,
+        "is_primary_key": true,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "name",
+        "field_description": "Full name of the government officer. Used for identification, communication, and reporting purposes in the application processing workflow.",
+        "field_id": "",
+        "field_name": "name",
+        "field_type": "PLAIN_TEXT",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "designation",
+        "field_description": "Official job title or position of the officer (e.g., Assistant City Planner, Planning Officer, Director, Commissioner, Tehsildar, Site Inspector).",
+        "field_id": "",
+        "field_name": "designation",
+        "field_type": "PLAIN_TEXT",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "level",
+        "field_description": "Hierarchical level classification of the officer within the processing workflow (L1, L2, L3, L4 for primary processing officers, or specialized categories for line department officers).",
+        "field_id": "",
+        "field_name": "level",
+        "field_type": "PLAIN_TEXT",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "zone",
+        "field_description": "Geographic or administrative zone assigned to the officer for territorial jurisdiction.",
+        "field_id": "",
+        "field_name": "zone",
+        "field_type": "PLAIN_TEXT",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": []
+      }
+    ]
+  },
+  {
+    "Table Description": "It tracks multiple scrutiny attempts for each building plan application. It records whether each scrutiny run was successful or failed, along with timing and other data.",
+    "Table Name": "WorkLoadDetails",
+    "big_query_table_name": "bn_prod_analytics.workload_details",
+    "fields": [
+      {
+        "bigquery_column_name": "id",
+        "field_description": "",
+        "field_id": "",
+        "field_name": "id",
+        "field_type": "PLAIN_TEXT",
+        "fk_config": null,
+        "is_primary_key": true,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "application_id",
+        "field_description": "Foreign key linking to the specific application in SubmittedApplications table. Establishes which application requires line department verification.",
+        "field_id": "",
+        "field_name": "application_id",
+        "field_type": "PLAIN_TEXT",
+        "fk_config": {
+          "field_name": "application_id",
+          "table_name": "FKAllApplications"
+        },
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "creation_datetime",
+        "field_description": "Timestamp when the workload detail record was created",
+        "field_id": "",
+        "field_name": "creation_datetime",
+        "field_type": "DATE_TIME",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "completed_at",
+        "field_description": "Timestamp when the workload was completed",
+        "field_id": "",
+        "field_name": "completed_at",
+        "field_type": "DATE_TIME",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "status",
+        "field_description": "Current status of the workload (COMPLETED, IN_PROGRESS, CALLED_TO_AUTOCAD, FAILED)",
+        "field_id": "",
+        "field_name": "status",
+        "field_type": "DROPDOWN",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": [
+          "COMPLETED",
+          "IN_PROGRESS",
+          "CALLED_TO_AUTOCAD",
+          "FAILED"
+        ]
+      },
+      {
+        "bigquery_column_name": "PlotAreaAsPerDocument",
+        "field_description": "Plot area measurement as documented in the application",
+        "field_id": "",
+        "field_name": "PlotAreaAsPerDocument",
+        "field_type": "FLOAT",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "LTPLicenseNo",
+        "field_description": "",
+        "field_id": "",
+        "field_name": "LTPLicenseNo",
+        "field_type": "PLAIN_TEXT",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "LTPName",
+        "field_description": "",
+        "field_id": "",
+        "field_name": "LTPName",
+        "field_type": "PLAIN_TEXT",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "pre_scrutiny_display_status",
+        "field_description": "",
+        "field_id": "",
+        "field_name": "pre_scrutiny_display_status",
+        "field_type": "DROPDOWN",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": [
+          "Failed",
+          "Passed",
+          "In Progress",
+          "Unsuccessful",
+          "Invalid"
+        ]
+      },
+      {
+        "bigquery_column_name": "scrutiny_display_status",
+        "field_description": "",
+        "field_id": "",
+        "field_name": "scrutiny_display_status",
+        "field_type": "DROPDOWN",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": [
+          "Failed",
+          "Passed",
+          "In Progress",
+          "Unsuccessful",
+          "Invalid"
+        ]
+      },
+      {
+        "bigquery_column_name": "drawing_pdf_display_status",
+        "field_description": "",
+        "field_id": "",
+        "field_name": "drawing_pdf_display_status",
+        "field_type": "DROPDOWN",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": [
+          "In Progress",
+          "Unsuccessful",
+          "Passed",
+          "Failed",
+          "Invalid"
+        ]
+      },
+      {
+        "bigquery_column_name": "pre_scrutiny_time_in_sec",
+        "field_description": "",
+        "field_id": "",
+        "field_name": "pre_scrutiny_time_in_sec",
+        "field_type": "INTEGER",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "scrutiny_time_in_sec",
+        "field_description": "",
+        "field_id": "",
+        "field_name": "scrutiny_time_in_sec",
+        "field_type": "INTEGER",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "actual_scrutiny_time_in_sec",
+        "field_description": "Actual time taken for scrutiny process in seconds",
+        "field_id": "",
+        "field_name": "actual_scrutiny_time_in_sec",
+        "field_type": "INTEGER",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "drawing_pdf_time_in_sec",
+        "field_description": "",
+        "field_id": "",
+        "field_name": "drawing_pdf_time_in_sec",
+        "field_type": "INTEGER",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "workload_rank",
+        "field_description": "",
+        "field_id": "",
+        "field_name": "workload_rank",
+        "field_type": "INTEGER",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": []
+      }
+    ]
+  },
+  {
+    "Table Description": "The ApplicationLineDepartmentDetails table tracks the review process by specialized line departments for submitted applications. Certain applications require additional approvals from specific government departments beyond the primary processing authority (DTCP/GHMC/HMDA). This table maintains records of officer assignments, processing timelines, and completion status for these departmental reviews.",
+    "Table Name": "ApplicationLineDepartmentDetails",
+    "big_query_table_name": "bn_prod_analytics.application_line_department_details",
+    "fields": [
+      {
+        "bigquery_column_name": "id",
+        "field_description": "Unique identifier for each line department verification record. Primary key for tracking individual departmental review assignments.",
+        "field_id": "",
+        "field_name": "id",
+        "field_type": "INTEGER",
+        "fk_config": null,
+        "is_primary_key": true,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "application_id",
+        "field_description": "Foreign key linking to the specific application in SubmittedApplications table. Establishes which application requires line department verification.",
+        "field_id": "",
+        "field_name": "application_id",
+        "field_type": "PLAIN_TEXT",
+        "fk_config": {
+          "field_name": "application_id",
+          "table_name": "FKSubmittedApplications"
+        },
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "officer_id",
+        "field_description": "Foreign key referencing the specific officer assigned to review this application from the line department. Links to Officers table for officer details.",
+        "field_id": "",
+        "field_name": "officer_id",
+        "field_type": "PLAIN_TEXT",
+        "fk_config": {
+          "field_name": "officer_id",
+          "table_name": "FKOfficers"
+        },
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "officer_category",
+        "field_description": "Department classification of the assigned officer (REVENUE for land verification, IRRIGATION for water clearances, TITLE for ownership verification, FIRE for safety clearances). Determines the type of verification required.",
+        "field_id": "",
+        "field_name": "officer_category",
+        "field_type": "DROPDOWN",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": [
+          "REVENUE",
+          "IRRIGATION",
+          "TITLE",
+          "FIRE"
+        ]
+      },
+      {
+        "bigquery_column_name": "remaining_time_left_in_sec",
+        "field_description": "Time remaining (in seconds) for the officer to complete their departmental review within prescribed SLA timelines. Used for deadline monitoring and escalation alerts.",
+        "field_id": "",
+        "field_name": "remaining_time_left_in_sec",
+        "field_type": "INTEGER",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "officer_assigned_datetime",
+        "field_description": "Date and time when the specific officer was assigned this application for departmental review. Marks the start of line department processing timeline.",
+        "field_id": "",
+        "field_name": "officer_assigned_datetime",
+        "field_type": "DATE_TIME",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "department_status",
+        "field_description": "Current status of the departmental verification process. \"Yet to Verify\" indicates pending review, \"Completed\" indicates finished verification by the assigned officer.",
+        "field_id": "",
+        "field_name": "department_status",
+        "field_type": "DROPDOWN",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": [
+          "Yet to Verify",
+          "Completed"
+        ]
+      },
+      {
+        "bigquery_column_name": "officer_processed_datetime",
+        "field_description": "Date and time when the officer completed their departmental review and submitted their verification decision. Used for calculating processing time and efficiency metrics.",
+        "field_id": "",
+        "field_name": "officer_processed_datetime",
+        "field_type": "DATE_TIME",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "sla_time_in_sec",
+        "field_description": "Total time allocated (in seconds) for this specific departmental verification as per Service Level Agreement. Used for SLA compliance monitoring and performance measurement.",
+        "field_id": "",
+        "field_name": "sla_time_in_sec",
+        "field_type": "INTEGER",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": []
+      }
+    ]
+  },
+  {
+    "Table Description": "Change log of status of the application as visible to the citizen/applicant",
+    "Table Name": "CitizenStageChangeLog",
+    "big_query_table_name": "bn_prod_analytics.citizen_stage_change_log",
+    "fields": [
+      {
+        "bigquery_column_name": "id",
+        "field_description": "Unique identifier for the stage transition record",
+        "field_id": "",
+        "field_name": "id",
+        "field_type": "INTEGER",
+        "fk_config": null,
+        "is_primary_key": true,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "application_id",
+        "field_description": "Foreign key linking to the specific application in SubmittedApplications table. Establishes which application requires line department verification.",
+        "field_id": "",
+        "field_name": "application_id",
+        "field_type": "PLAIN_TEXT",
+        "fk_config": {
+          "field_name": "application_id",
+          "table_name": "FKSubmittedApplications"
+        },
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "from_stage_id",
+        "field_description": "The Unique ID of the previous status of the application as seen by the citizen \u2014 before the current update.",
+        "field_id": "",
+        "field_name": "from_stage_id",
+        "field_type": "PLAIN_TEXT",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "to_stage_id",
+        "field_description": "The unique ID of the new status of the application as visible to the citizen \u2014 after the latest update.",
+        "field_id": "",
+        "field_name": "to_stage_id",
+        "field_type": "PLAIN_TEXT",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "from_stage_name",
+        "field_description": "The previous status of the application as seen by the citizen \u2014 e.g., \u201cSubmitted\u201d or \u201cUnder Review\u201d \u2014 before the current update.",
+        "field_id": "",
+        "field_name": "from_stage_name",
+        "field_type": "DROPDOWN",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": [
+          "Draft",
+          "Payment Pending",
+          "Under Department Verification",
+          "Other Department Verification In Progress",
+          "Shortfall",
+          "Revised Payment Pending",
+          "Approved",
+          "Rejected",
+          "Draft In Progress",
+          "Scrutiny Failed",
+          "Scrutiny Key Generated",
+          "Scrutiny Successful",
+          "Under Mortgage & Other Info Verification",
+          "Proceedings Generated",
+          "Processing Fee Pending",
+          "Submit TDR Details",
+          "Awaiting TDR Confirmation",
+          "Initiating Resubmission",
+          "Mortgage & Other Info pending",
+          "Issue in Mortgage & Other Info Details",
+          "Shortfall Scrutiny Failed",
+          "Issue in TDR Details",
+          "Application On-Hold",
+          "Issue in Relinquishment Details",
+          "Relinquishment Details Pending",
+          "Under Relinquishment Details Verification"
+        ]
+      },
+      {
+        "bigquery_column_name": "to_stage_name",
+        "field_description": "The new status of the application as visible to the citizen \u2014 e.g., \u201cApproved\u201d or \u201cRejected\u201d \u2014 after the latest update.",
+        "field_id": "",
+        "field_name": "to_stage_name",
+        "field_type": "DROPDOWN",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": [
+          "Draft",
+          "Payment Pending",
+          "Under Department Verification",
+          "Other Department Verification In Progress",
+          "Shortfall",
+          "Revised Payment Pending",
+          "Approved",
+          "Rejected",
+          "Draft In Progress",
+          "Scrutiny Failed",
+          "Scrutiny Key Generated",
+          "Scrutiny Successful",
+          "Under Mortgage & Other Info Verification",
+          "Proceedings Generated",
+          "Processing Fee Pending",
+          "Submit TDR Details",
+          "Awaiting TDR Confirmation",
+          "Initiating Resubmission",
+          "Mortgage & Other Info pending",
+          "Issue in Mortgage & Other Info Details",
+          "Shortfall Scrutiny Failed",
+          "Issue in TDR Details",
+          "Application On-Hold",
+          "Issue in Relinquishment Details",
+          "Relinquishment Details Pending",
+          "Under Relinquishment Details Verification"
+        ]
+      },
+      {
+        "bigquery_column_name": "stage_changed_at",
+        "field_description": "Timestamp indicating when the stage transition occurred (i.e., when the status was updated).",
+        "field_id": "",
+        "field_name": "stage_changed_at",
+        "field_type": "DATE_TIME",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": []
+      }
+    ]
+  },
+  {
+    "Table Description": "Change log of status of the application as visible to the Officer",
+    "Table Name": "OfficerStageChangeLog",
+    "big_query_table_name": "bn_prod_analytics.officer_stage_change_log",
+    "fields": [
+      {
+        "bigquery_column_name": "id",
+        "field_description": "Unique identifier for the stage transition record",
+        "field_id": "",
+        "field_name": "id",
+        "field_type": "INTEGER",
+        "fk_config": null,
+        "is_primary_key": true,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "application_id",
+        "field_description": "Foreign key linking to the specific application in SubmittedApplications table. Establishes which application requires line department verification.",
+        "field_id": "",
+        "field_name": "application_id",
+        "field_type": "PLAIN_TEXT",
+        "fk_config": {
+          "field_name": "application_id",
+          "table_name": "FKSubmittedApplications"
+        },
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "from_stage_id",
+        "field_description": "The Unique ID of the previous status of the application as seen by the officer \u2014 before the current update.",
+        "field_id": "",
+        "field_name": "from_stage_id",
+        "field_type": "PLAIN_TEXT",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "to_stage_id",
+        "field_description": "The unique ID of the new status of the application as visible to the officer \u2014 after the latest update.",
+        "field_id": "",
+        "field_name": "to_stage_id",
+        "field_type": "PLAIN_TEXT",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": []
+      },
+      {
+        "bigquery_column_name": "from_stage_name",
+        "field_description": "The previous status of the application as seen by the officer \u2014 e.g., \u201cUnder L1 verification\u201d or \u201cProceedings Generated\u201d \u2014 before the current update.",
+        "field_id": "",
+        "field_name": "from_stage_name",
+        "field_type": "DROPDOWN",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": [
+          "Under L1 Verification",
+          "Under L1(STO)/L1(TVO) Verification",
+          "Under (STO) Verification",
+          "Under L2 Verification",
+          "Under (TVO) Verification",
+          "Under L3 Verification",
+          "On Hold For Line Dept Remarks",
+          "Rejected",
+          "Shortfall",
+          "Revised Fee Intimation Sent",
+          "Approved",
+          "Under L1(APO/JPO)/L1(TVO) Verification",
+          "Under L1(ACP)/L1 (TVO) Verification",
+          "Under L1(SI)/L1(TTVO) Verification",
+          "Under (TTVO) Verification",
+          "Under (SI) Verification",
+          "Under L1(APO/JPO) Verification",
+          "Under L1(ACP) Verification",
+          "Under L4 Verification",
+          "Proceedings Generated",
+          "Final Payment Pending",
+          "Rejection Verification by L2",
+          "Awaiting TDR Confirmation",
+          "Final Payment Paid",
+          "Mortgage & Other Info pending",
+          "Under Post Payment Details Verification by L2",
+          "Issue Proceedings by L2",
+          "Post Payment Details Shortfall",
+          "Under Post Payment Details Verification by L1",
+          "Under Post Payment Details Verification by L3",
+          "Verify TDR Details",
+          "TDR Accepted by Owner",
+          "Verify TDR Details by L2",
+          "Rejected with Refund",
+          "Rejected without Refund",
+          "TDR Shortfall",
+          "Application On-Hold",
+          "Reject with Refund",
+          "TDR shortfall",
+          "Relinquishment Details Shortfall",
+          "Yet to Submit Relinquishment Deed"
+        ]
+      },
+      {
+        "bigquery_column_name": "to_stage_name",
+        "field_description": "The new status of the application as visible to the officer \u2014 e.g., \u201cUnder L1 verification\u201d or \u201cProceedings Generated\u201d \u2014 after the latest update.",
+        "field_id": "",
+        "field_name": "to_stage_name",
+        "field_type": "DROPDOWN",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": [
+          "Under L1 Verification",
+          "Under L1(STO)/L1(TVO) Verification",
+          "Under (STO) Verification",
+          "Under L2 Verification",
+          "Under (TVO) Verification",
+          "Under L3 Verification",
+          "On Hold For Line Dept Remarks",
+          "Rejected",
+          "Shortfall",
+          "Revised Fee Intimation Sent",
+          "Approved",
+          "Under L1(APO/JPO)/L1(TVO) Verification",
+          "Under L1(ACP)/L1 (TVO) Verification",
+          "Under L1(SI)/L1(TTVO) Verification",
+          "Under (TTVO) Verification",
+          "Under (SI) Verification",
+          "Under L1(APO/JPO) Verification",
+          "Under L1(ACP) Verification",
+          "Under L4 Verification",
+          "Proceedings Generated",
+          "Final Payment Pending",
+          "Rejection Verification by L2",
+          "Awaiting TDR Confirmation",
+          "Final Payment Paid",
+          "Mortgage & Other Info pending",
+          "Under Post Payment Details Verification by L2",
+          "Issue Proceedings by L2",
+          "Post Payment Details Shortfall",
+          "Under Post Payment Details Verification by L1",
+          "Under Post Payment Details Verification by L3",
+          "Verify TDR Details",
+          "TDR Accepted by Owner",
+          "Verify TDR Details by L2",
+          "Rejected with Refund",
+          "Rejected without Refund",
+          "TDR Shortfall",
+          "Application On-Hold",
+          "Reject with Refund",
+          "TDR shortfall",
+          "Relinquishment Details Shortfall",
+          "Yet to Submit Relinquishment Deed"
+        ]
+      },
+      {
+        "bigquery_column_name": "stage_changed_at",
+        "field_description": "Timestamp indicating when the stage transition occurred (i.e., when the status was updated).",
+        "field_id": "",
+        "field_name": "stage_changed_at",
+        "field_type": "DATE_TIME",
+        "fk_config": null,
+        "is_primary_key": false,
+        "options": []
+      }
+    ]
+  }
+]

@@ -2,7 +2,7 @@ import pandas as pd
 from google.cloud import bigquery
 from google.oauth2 import service_account
 
-from data_sets.ecommerce.generate import DataGen
+from .generate import DataGen
 
 
 class BigQueryEcommerceUploader:
